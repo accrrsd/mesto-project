@@ -20,7 +20,7 @@
   }
 }
 
-@media screen and (max-width: 320px){
+@media screen and (max-width: 580px){
   .profile__title{
     margin-left: 26px;
   }

@@ -3,7 +3,7 @@
   margin: auto;
 }
 
-@media screen and (max-width: 320px){
+@media screen and (max-width: 580px){
   .profile__edit-icon{
     width: 7.5px;
   }
