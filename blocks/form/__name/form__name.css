@@ -1,9 +1,9 @@
-.form__name{
+.form__name {
   margin: 0;
   padding: 0;
   border: 0;
 
-  margin-top: 48px;
+  margin-top: 39px;
 
   width: 100%;
   font-family: Inter, Arial, sans-serif;
@@ -14,11 +14,16 @@
 
   color: black;
 
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 
+  min-height: 35px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
-@media screen and (max-width: 320px){
-  .form__name{
-    margin-top: 75px;
+@media screen and (max-width: 320px) {
+  .form__name {
+    margin-top: 66px;
   }
 }

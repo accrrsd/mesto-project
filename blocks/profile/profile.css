@@ -1,33 +1,33 @@
-.profile{
-  margin:0;
+.profile {
+  margin: 0;
   padding: 0;
   margin-top: 40px;
 
   display: grid;
-  grid-template-columns: minmax(min-content,max-content) 30px minmax(min-content,max-content) 1fr minmax(min-content,max-content);
+  grid-template-columns: minmax(min-content, max-content) 30px minmax(min-content, max-content) 1fr minmax(min-content, max-content);
   grid-template-rows: auto;
-  grid-template-areas: "avatar . info . add-button";
+  grid-template-areas: 'avatar . info . add-button';
   align-items: center;
 }
 
-@media screen and (max-width: 580px){
-  .profile{
+@media screen and (max-width: 580px) {
+  .profile {
     margin: 42px auto 0;
     max-width: 282px;
     justify-items: center;
     grid-template-columns: auto;
-    grid-template-rows: minmax(min-content,max-content) 26px minmax(min-content,max-content) 36px minmax(min-content,max-content);
-    grid-template-areas: 
-    "avatar"
-    "."
-    "info"
-    "."
-    "add-button";
+    grid-template-rows: minmax(min-content, max-content) 26px minmax(min-content, max-content) 36px minmax(min-content, max-content);
+    grid-template-areas:
+      'avatar'
+      '.'
+      'info'
+      '.'
+      'add-button';
   }
 }
 
-@media screen and (max-width: 320px){
-  .profile{
-    grid-template-rows: minmax(min-content,max-content) 26px minmax(min-content,max-content) 31px minmax(min-content,max-content);
+@media screen and (max-width: 320px) {
+  .profile {
+    grid-template-rows: minmax(min-content, max-content) 26px minmax(min-content, max-content) 31px minmax(min-content, max-content);
   }
 }

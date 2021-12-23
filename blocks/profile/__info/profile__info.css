@@ -1,18 +1,18 @@
-.profile__info{
+.profile__info {
   grid-area: info;
   display: grid;
-  grid-template-columns: minmax(min-content,max-content) 24px;
+  grid-template-columns: minmax(min-content, max-content) 24px;
   column-gap: 21px;
-  grid-template-rows: repeat(2,minmax(min-content,max-content));
+  grid-template-rows: repeat(2, minmax(min-content, max-content));
   row-gap: 9px;
-  grid-template-areas: 
-  "title icon"
-  "subtitle subtitle";
+  grid-template-areas:
+    'title icon'
+    'subtitle subtitle';
 }
 
-@media screen and (max-width: 580px){
-  .profile__info{
-    grid-template-columns: minmax(min-content,max-content) 18px;
+@media screen and (max-width: 580px) {
+  .profile__info {
+    grid-template-columns: minmax(min-content, max-content) 18px;
     column-gap: 12px;
   }
 }

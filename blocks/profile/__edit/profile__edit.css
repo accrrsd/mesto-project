@@ -1,4 +1,4 @@
-.profile__edit{
+.profile__edit {
   margin: 0;
   padding: 0;
   margin-top: 16px;
@@ -6,26 +6,31 @@
   max-height: 24px;
   background-color: transparent;
   cursor: pointer;
-  border: 1px solid #FFFFFF;
+  border: 1px solid #ffffff;
   box-sizing: border-box;
   display: flex;
-  transition: opacity .3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
+
+  background-image: url(../../../src/images/pencil.svg);
+  background-position: center;
+  background-repeat: no-repeat;
 }
-@media screen and (max-width: 880px){
-  .profile__edit{
+@media screen and (max-width: 880px) {
+  .profile__edit {
     height: 20px;
     width: 20px;
     margin-top: 10px;
   }
 }
-@media screen and (max-width: 580px){
-  .profile__edit{
+@media screen and (max-width: 580px) {
+  .profile__edit {
     height: 18px;
     width: 18px;
     margin-top: 8px;
+    background-size: 8px;
   }
 }
 
-.profile__edit:hover{
-  opacity: .6;
+.profile__edit:hover {
+  opacity: 0.6;
 }

@@ -18,11 +18,11 @@
   font-size: 18px;
   line-height: 22px;
   text-align: center;
-  transition: opacity .3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
 }
 
-@media screen and (max-width: 580px){
-  .form__submit{
+@media screen and (max-width: 580px) {
+  .form__submit {
     margin-top: 30px;
   }
 }
@@ -30,13 +30,12 @@
 @media screen and (max-width: 320px) {
   .form__submit {
     height: 46px;
-    margin-top: 44px;
+    margin-top: 45px;
     font-size: 14px;
     line-height: 17px;
   }
 }
 
-
-.form__submit:hover{
-  opacity: .8;
+.form__submit:hover {
+  opacity: 0.8;
 }

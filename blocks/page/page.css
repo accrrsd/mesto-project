@@ -1,12 +1,12 @@
-.page{
+.page {
   max-width: 880px;
   min-width: 320px;
   color: white;
   margin: 0 auto;
 }
 
-@media screen and (max-width: 879px){
-  .page{
-  max-width: 581px;
+@media screen and (max-width: 879px) {
+  .page {
+    max-width: 581px;
   }
 }
