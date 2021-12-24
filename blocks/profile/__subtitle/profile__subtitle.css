@@ -3,7 +3,7 @@
   padding: 0;
   margin-left: 4px;
   grid-area: subtitle;
-  max-width: 336px;
+  max-width: 560px;
 
   font-family: Inter, Arial, sans-serif;
   font-style: normal;
@@ -16,6 +16,11 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+@media screen and (max-width: 880px) {
+  .profile__subtitle {
+    max-width: 270px;
+  }
 }
 @media screen and (max-width: 580px) {
   .profile__subtitle {

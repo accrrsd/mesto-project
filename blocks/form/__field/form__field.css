@@ -1,11 +1,9 @@
-.form__name {
+.form__field {
   margin: 0;
   padding: 0;
   border: 0;
-
-  margin-top: 39px;
-
   width: 100%;
+
   font-family: Inter, Arial, sans-serif;
   font-style: normal;
   font-weight: normal;
@@ -22,8 +20,16 @@
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 
+.form__field:nth-child(1) {
+  margin-top: 39px;
+}
+
+.form__field:nth-child(2) {
+  margin-top: 21px;
+}
+
 @media screen and (max-width: 320px) {
-  .form__name {
+  .form__field:nth-child(1) {
     margin-top: 66px;
   }
 }
