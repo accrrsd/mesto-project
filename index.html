@@ -21,64 +21,14 @@
         <img src="src/images/avatar.jpg" alt="Пожилой мужчина в красной шапке" class="profile__avatar">
         <div class="profile__info">
           <h1 class="profile__title">Жак-Ив Кусто</h1>
-          <button type="button" class="profile__edit"></button>
+          <button type="button" class="profile__edit" id="profile-edit"></button>
           <p class="profile__subtitle">Исследователь океана</p>
         </div>
-        <button type="button" class="profile__add"></button>
+        <button type="button" class="profile__add" id="add-card"></button>
 
       </section>
 
-      <section class="places">
-
-        <article class="place">
-          <img src="src/images/castle.jpg" alt="Замок" class="place__image">
-          <div class="place__footer">
-            <h2 class="place__title">Карачаевск</h2>
-            <button type="button" class="place__like"></button>
-          </div>
-        </article>
-
-        <article class="place">
-          <img src="src/images/field.jpg" alt="Изображение горы" class="place__image">
-          <div class="place__footer">
-            <h2 class="place__title">Гора Эльбрус</h2>
-            <button type="button" class="place__like"></button>
-          </div>
-        </article>
-
-        <article class="place">
-          <img src="src/images/mountain.jpg" alt="Поле" class="place__image">
-          <div class="place__footer">
-            <h2 class="place__title">Домбай</h2>
-            <button type="button" class="place__like"></button>
-          </div>
-        </article>
-
-        <article class="place">
-          <img src="src/images/field.jpg" alt="Изображение горы" class="place__image">
-          <div class="place__footer">
-            <h2 class="place__title">Гора Эльбрус</h2>
-            <button type="button" class="place__like"></button>
-          </div>
-        </article>
-
-        <article class="place">
-          <img src="src/images/mountain.jpg" alt="Поле" class="place__image">
-          <div class="place__footer">
-            <h2 class="place__title">Домбай</h2>
-            <button type="button" class="place__like"></button>
-          </div>
-        </article>
-
-        <article class="place">
-          <img src="src/images/castle.jpg" alt="Замок" class="place__image">
-          <div class="place__footer">
-            <h2 class="place__title">Карачаево-Черкесия</h2>
-            <button type="button" class="place__like"></button>
-          </div>
-        </article>
-
-      </section>
+      <section class="places"></section>
 
     </main>
 
@@ -89,19 +39,32 @@
   </div>
 
   <div class="popup">
-    <div class="popup__content">
+    <div class="popup__content popup__content_type_form">
       <button type="button" class="popup__close"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form name="profile-set">
+      <form name="profile-set" id="popup__form">
         <fieldset class="form">
-          <input name="name" type="text" class="form__field" required value="Жак-Ив Кусто">
-          <input name="subname" type="text" class="form__field" value="Исследователь океана">
+          <input name="name" type="text" class="form__field" required>
+          <input name="subname" type="text" class="form__field">
           <button type="submit" class="form__submit">Сохранить</button>
         </fieldset>
       </form>
     </div>
 
   </div>
+
+  <template id="place-template">
+    <article class="place">
+      <button type="button" class="place__trash"></button>
+      <img class="place__image">
+      <div class="place__footer">
+        <h2 class="place__title"></h2>
+        <button type="button" class="place__like"></button>
+      </div>
+    </article>
+  </template>
+
+  <script src="scripts/script.js"></script>
 </body>
 
 </html>

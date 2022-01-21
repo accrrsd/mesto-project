@@ -1,6 +1,11 @@
 .place {
+  position: relative;
+
   max-width: 282px;
   min-height: 361px;
   border-radius: 10px;
   background-color: white;
+
+  overflow: hidden;
+  text-align: center;
 }
