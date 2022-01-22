@@ -142,7 +142,7 @@ function placeCreate(name,url,alt){
   image.src=url
   image.alt=alt? alt:''
 
-  // События карточки
+  // #region События карточки
   // Лайк
   const likeButton = currentPlace.querySelector('.place__like')
   likeButton.addEventListener('click',()=>{likeButton.classList.toggle('place__like_active')})
@@ -164,7 +164,8 @@ function placeCreate(name,url,alt){
 
     openPopup(popupImage)
   })
-
+  //#endregion
+  
   return place
 }
 
