@@ -31,171 +31,151 @@ const initialCards = [
   }
 ]
 
-// Общий попап
-const popup=document.querySelector('.popup')
+// Попапы
+const popupImage = document.querySelector('.popup_type_image')
+const popupAddCard = document.querySelector('.popup_type_add-card')
+const popupProfile = document.querySelector('.popup_type_profile')
 
 // Профиль
 const profileTitle = document.querySelector('.profile__title')
 const profileSubtitle = document.querySelector('.profile__subtitle')
+
+// Контейнер мест
+const placeContainer = document.querySelector('.places')
+
+
+// #region Данные из попапов
+// Профиль
+const popupProfileName = popupProfile.querySelector('input[name="name"]')
+const popupProfileSubname = popupProfile.querySelector('input[name="subname"]')
+const popupProfileSubmit = popupProfile.querySelector('.form__submit')
+
+// Карточка
+const popupAddCardName = popupAddCard.querySelector('input[name="image-name"]')
+const popupAddCardUrl = popupAddCard.querySelector('input[name="url"]')
+const popupAddCardSubmit = popupAddCard.querySelector('.form__submit')
+
+// Картинка
+const popupImageTitle = popupImage.querySelector('.popup__title')
+const popupImagePicture = popupImage.querySelector('.popup__picture')
+//#endregion
+
+// Триггеры открытия
 const profileEditButton = document.querySelector('#profile-edit')
+const addCardButton = document.querySelector('#add-card')
 
-const placeAddButton = document.querySelector('#add-card')
-
-// Настройка попапа
-const popupContent = popup.querySelector('.popup__content')
-const popupTitle = popup.querySelector('.popup__title')
-const popupForm = popup.querySelector('#popup__form')
-const popupFirstField = popupForm.querySelectorAll('.form__field')[0]
-const popupSecondField = popupForm.querySelectorAll('.form__field')[1]
-const popupSubmitBtn = popup.querySelector('.form__submit')
+// Триггеры закрытия
+const popupCloseButtons = document.querySelectorAll('.popup__close')
 
 
-function displayPopup(type,place){
-  // Стандартное закрытие
-  const popupClose = popup.querySelector('.popup__close')
-  popupClose.onclick=()=>{smoothDisplay('hide')}
+// Евент открытия
+profileEditButton.addEventListener('click',()=>{
+  openPopup(popupProfile)
+})
 
-  switch (type) {
-    case 'edit':
-      popupTitle.textContent='Редактировать профиль'
-      popupSubmitBtn.textContent='Сохранить'
+addCardButton.addEventListener('click',()=>{
+  openPopup(popupAddCard)
+})
 
-      popupFirstField.value=profileTitle.textContent
-      popupSecondField.value=profileSubtitle.textContent
+// Евент закрытия
+popupCloseButtons.forEach(close => {
+  close.addEventListener('click',()=>{
+    closePopup(close.closest('.popup_opened'))
+  })
+});
 
-      popupFirstField.placeHolder=''
-      popupSecondField.placeHolder=''
-      smoothDisplay('show')
+//#region Евент принятия
 
-      popupForm.onsubmit=(e)=>{
-        e.preventDefault()
-        profileTitle.textContent=popupFirstField.value
-        profileSubtitle.textContent=popupSecondField.value
-        smoothDisplay('hide')
-      }
-      break;
-    case 'card':
-      popupTitle.textContent='Новое место'
-      popupSubmitBtn.textContent='Создать'
+// Профиль
+popupProfileSubmit.addEventListener('click',(e)=>{
+  e.preventDefault()
+  profileTitle.textContent=popupProfileName.value
+  profileSubtitle.textContent=popupProfileSubname.value
 
-      popupFirstField.placeholder='Название'
-      popupSecondField.placeholder='Ссылка на картинку'
-      
-      popupFirstField.value=''
-      popupSecondField.value=''
-      
-      smoothDisplay('show')
+  closePopup(popupProfileSubmit.closest('.popup_opened'))
+})
 
-      popupForm.onsubmit=(e)=>{
-        e.preventDefault()
-        const place = {
-          name:popupFirstField.value,
-          link:popupSecondField.value
-        }
-        initialCards.unshift(place)
-        smoothDisplay('hide')
-        renderPlaces()
-      }
-      break;
-    case 'image':
-      // Изменяем название
-      popupTitle.textContent = place.querySelector('.place__title').textContent
-      popupTitle.classList.add('popup__title_type_image')
-      
-      //создаем картинку
-      const popupImage = document.createElement('img')
-      popupImage.src = place.querySelector('.place__image').src
-      popupImage.style.maxWidth='75vw'
-      popupImage.style.maxHeight='75vh'
+// Карточка
+popupAddCardSubmit.addEventListener('click',(e)=>{
+  e.preventDefault()
+  initialCards.unshift(
+    {
+      name:popupAddCardName.value,
+      link:popupAddCardUrl.value
+    })
+  renderPlaces()
 
-      // Очищаем контент внутри
-      popupContent.classList.remove('popup__content_type_form')
-      popupForm.style.display='none'
+  closePopup(popupAddCardSubmit.closest('.popup_opened'))
+})
+//#endregion
 
-      // Вставляем картинку
-      popupContent.prepend(popupImage)
-      smoothDisplay('show')
 
-      // Измененное закрытие
-      popupClose.onclick=()=>{
-        popup.style.opacity='0'
-        popup.ontransitionend=()=>{
-          popup.style.visibility='hidden'
-          
-          popupContent.classList.add('popup__content_type_form')
-          popupTitle.classList.remove('popup__title_type_image')
-          popupForm.style.display='block'
-          popupImage.remove()
-        }
-      }
-      break;
-  }
+
+// Данные попапа профиля
+popupProfileName.value=profileTitle.textContent
+popupProfileSubname.value=profileSubtitle.textContent
+
+// Открытие
+function openPopup(popup){
+  popup.classList.add('popup_opened')
 }
 
-function renderPlaces(){
-  const placeContainer = document.querySelector('.places')
-  placeContainer.innerHTML=''
+// Закрытие
+function closePopup(popup){
+  popup.classList.remove('popup_opened')
+}
 
+// Создание карточки
+function placeCreate(name,url,alt){
+  // Шаблон
   const placeTemplate = document.querySelector('#place-template').content
-  
-  initialCards.forEach(element => {
-    // Создаем копию шаблона
-    const place = placeTemplate.cloneNode(true)
-    const title = place.querySelector('.place__title')
-    const image = place.querySelector('.place__image')
 
-    // Конкретная карточка
-    const currentPlace = image.closest('.place')
+  // Части карточка
+  const place = placeTemplate.cloneNode(true)
 
-    // Наполняем контент
-    title.textContent=element.name
-    image.src=element.link
+  const currentPlace = place.querySelector('.place')
+  const title = place.querySelector('.place__title')
+  const image = place.querySelector('.place__image')
 
-    image.alt=element.alt? element.alt:''
+  // Наполнение карточки
+  title.textContent=name
+  image.src=url
+  image.alt=alt? alt:''
 
-    // Открытие картинки
-    image.onclick=()=>{displayPopup('image',currentPlace)}
+  // События карточки
+  // Лайк
+  const likeButton = currentPlace.querySelector('.place__like')
+  likeButton.addEventListener('click',()=>{likeButton.classList.toggle('place__like_active')})
 
-    // Лайк
-    const likeButton = currentPlace.querySelector('.place__like')
-    likeButton.onclick=()=>{likeButton.classList.toggle('place__like_active')}
-
-    // Удалить
-    const deletePlaceButton = currentPlace.querySelector('.place__trash')
-    deletePlaceButton.onclick=()=>{
-      for (let i = 0; i < initialCards.length; i++) {
-        if (initialCards[i].name===title.textContent){initialCards.splice(i,1)}
-      }
-      renderPlaces()
+  // Удалить
+  const deletePlaceButton = currentPlace.querySelector('.place__trash')
+  deletePlaceButton.addEventListener('click',()=>{
+    for (let i = 0; i < initialCards.length; i++) {
+      if (initialCards[i].name===title.textContent){initialCards.splice(i,1)}
     }
-    // Рендерим
-    placeContainer.append(place)
+    currentPlace.remove()
+    return
+  })
+  // Открыть картинку
+  image.addEventListener('click',()=>{
+    popupImagePicture.src=image.src
+    popupImagePicture.alt=image.alt
+    popupImageTitle.textContent=title.textContent
+
+    openPopup(popupImage)
+  })
+
+  return place
+}
+
+// Отрисовка мест
+function renderPlaces(){
+  placeContainer.innerHTML=''
+  initialCards.forEach(card => {
+    if (card.alt){placeContainer.append(placeCreate(card.name,card.link,card.alt))}
+    else{placeContainer.append(placeCreate(card.name,card.link))}
   });
 }
 
-function smoothDisplay(param){
-  switch (param) {
-    case 'show':
-      popup.ontransitionend=''
-      popup.classList.add('popup_opened')
-      popup.style.visibility='visible'
-      popup.style.opacity='1'
-      break;
-    case 'hide':
-      popup.style.opacity='0'
-      popup.ontransitionend=()=>{
-        popup.style.visibility='hidden'
-      }
-      break;
-  }
-}
-
-profileEditButton.onclick=()=>{
-  displayPopup('edit')
-}
-
-placeAddButton.onclick=()=>{
-  displayPopup('card')
-}
-
 renderPlaces()
+

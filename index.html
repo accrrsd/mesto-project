@@ -38,11 +38,11 @@
 
   </div>
 
-  <div class="popup">
+  <div class="popup popup_type_profile">
     <div class="popup__content popup__content_type_form">
       <button type="button" class="popup__close"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form name="profile-set" id="popup__form">
+      <form name="profile-set">
         <fieldset class="form">
           <input name="name" type="text" class="form__field" required>
           <input name="subname" type="text" class="form__field">
@@ -50,7 +50,28 @@
         </fieldset>
       </form>
     </div>
+  </div>
 
+  <div class="popup popup_type_add-card">
+    <div class="popup__content popup__content_type_form">
+      <button type="button" class="popup__close"></button>
+      <h2 class="popup__title">Новое место</h2>
+      <form name="card-set">
+        <fieldset class="form">
+          <input name="image-name" type="text" class="form__field" placeholder="Название" required>
+          <input name="url" type="text" class="form__field" placeholder="Ссылка на картинку" required>
+          <button type="submit" class="form__submit">Создать</button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+
+  <div class="popup popup_type_image">
+    <div class="popup__content">
+      <button type="button" class="popup__close"></button>
+      <img src="." alt="" class="popup__picture">
+      <h2 class="popup__title popup__title_type_image"></h2>
+    </div>
   </div>
 
   <template id="place-template">
