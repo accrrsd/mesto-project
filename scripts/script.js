@@ -88,11 +88,13 @@ popupProfileForm.addEventListener('submit', e => {
 // Карточка
 popupAddCardForm.addEventListener('submit', e => {
   e.preventDefault()
-  initialCards.unshift({
-    name: popupAddCardName.value,
-    link: popupAddCardUrl.value,
-  })
-  renderPlaces()
+  const newPlace = createPlace(
+    popupAddCardName.value,
+    popupAddCardUrl.value,
+    popupAddCardName.value
+  )
+
+  placeContainer.prepend(newPlace)
 
   closePopup(popupAddCard)
   popupAddCardName.value = ''
