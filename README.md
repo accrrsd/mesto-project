@@ -1,17 +1,17 @@
 # Проект: Место
 
 ### Технологии
-* Css
-* Html
-* Js
 
-* Впервые используется popup
-* Сложные PopUp анимации
-* Много JS
+- Css
+- Html
+- Js
 
+- Впервые используется WebPack
+- Скрипты навешаны на кнопки, создание карточек с помощью JS.
+- Много JS
 
 **GitPages**
 
-* [Ссылка на GitPages](https://accrrsd.github.io/mesto-project)
+- [Ссылка на GitPages](https://accrrsd.github.io/mesto-project)
 
 Спасибо)

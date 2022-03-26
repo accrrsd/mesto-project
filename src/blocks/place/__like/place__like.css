@@ -1,0 +1,17 @@
+.place__like {
+  margin: 0;
+  padding: 0;
+  background-image: url(../../../../src/images/heart.svg);
+
+  background-color: transparent;
+  border: none;
+  width: 22px;
+  height: 19px;
+  transition: opacity 0.3s ease-in-out;
+
+  cursor: pointer;
+}
+
+.place__like:hover {
+  opacity: 0.5;
+}
