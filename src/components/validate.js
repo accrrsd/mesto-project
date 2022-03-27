@@ -10,9 +10,6 @@ export function enableValidation({formSelector,inputSelector,submitButtonSelecto
       checkValid(form,input,inputErrorClass,errorClass)
       toggleButtonBlock(submitBtn, inactiveButtonClass, inputs.some(input=>!input.validity.valid))
     })
-
-    // Первая проверка валидности полей
-    checkValid(form,input,inputErrorClass,errorClass)  
   })
   })
 }
@@ -27,7 +24,7 @@ function checkValid(form,input,inputErrorClass,errorClass){
   }
 }
 
-function toggleButtonBlock(elem, blockButtonClass, invalid){
+export function toggleButtonBlock(elem, blockButtonClass, invalid){
   if (invalid){
     elem.classList.add(blockButtonClass)
     elem.disabled=true

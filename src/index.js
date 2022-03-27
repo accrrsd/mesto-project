@@ -3,21 +3,23 @@ import {profileEditButton, popupProfile, addCardButton, popupAddCard} from './co
 import {openPopup} from './components/modal.js';
 import {enableValidation} from './components/validate.js';
 import {renderPlaces} from './components/cards';
-import './components/profile'
+import {openProfilePopup} from './components/profile'
 
-// Включение валидации
-enableValidation({
+const validationSettings={
   formSelector: '.form',
   inputSelector: '.form__field',
   submitButtonSelector: '.form__submit',
   inactiveButtonClass: 'form__submit_disabled',
   inputErrorClass: 'form__field_invalid',
   errorClass: 'form__field-error_active'
-})
+}
+
+// Включение валидации
+enableValidation(validationSettings)
 
 // Ивенты открытия попапов
 profileEditButton.addEventListener('click', () => {
-  openPopup(popupProfile)
+  openProfilePopup()
 })
 
 addCardButton.addEventListener('click', () => {

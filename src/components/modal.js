@@ -13,21 +13,21 @@ overlays.forEach(overlay=>{
 // Открытие
 export function openPopup(popup) {
   popup.classList.add('popup_opened')
-  document.addEventListener('keydown',keyHandler)
+  document.addEventListener('keydown',handleEscKey)
 }
 
 // Закрытие
 export function closePopup(popup) {
   popup.classList.remove('popup_opened')
-  document.removeEventListener('keydown',keyHandler)
+  document.removeEventListener('keydown',handleEscKey)
 }
 
 // Слушатель
-function keyHandler(e){
+function handleEscKey(e){
   if (e.key==='Escape'){
-    const opened = document.querySelector('.popup_opened')
-    if (opened){
-      closePopup(opened)
+    const openedPopup = document.querySelector('.popup_opened')
+    if (openedPopup){
+      closePopup(openedPopup)
     }
   }
 }

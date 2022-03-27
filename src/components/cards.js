@@ -1,6 +1,6 @@
 import { initialCards, popupAddCard, popupAddCardName, popupAddCardForm, popupAddCardUrl, popupImagePicture, popupImageTitle, placeContainer, popupImage} from "./variables.js";
 import {closePopup, openPopup} from "./modal.js"
-
+import {toggleButtonBlock} from './validate'
 
 // Карточка
 popupAddCardForm.addEventListener('submit', e => {
@@ -13,9 +13,11 @@ popupAddCardForm.addEventListener('submit', e => {
 
   placeContainer.prepend(newPlace)
 
+  const submitBtn=popupAddCardForm.querySelector('.form__submit')
+
   closePopup(popupAddCard)
-  popupAddCardName.value = ''
-  popupAddCardUrl.value = ''
+  popupAddCardForm.reset()
+  toggleButtonBlock(submitBtn,'form__submit_disabled', true)
 })
 
 

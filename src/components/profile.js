@@ -1,4 +1,4 @@
-import {closePopup} from './modal.js'
+import {closePopup, openPopup} from './modal.js'
 import {profileTitle, profileSubtitle, popupProfile, popupProfileForm, popupProfileName, popupProfileSubname} from './variables' 
 
 // Профиль
@@ -10,6 +10,9 @@ popupProfileForm.addEventListener('submit', e => {
   closePopup(popupProfile)
 })
 
-// Данные попапа профиля
-popupProfileName.value = profileTitle.textContent
-popupProfileSubname.value = profileSubtitle.textContent
+export function openProfilePopup(){
+    // Данные попапа профиля
+    popupProfileName.value = profileTitle.textContent
+    popupProfileSubname.value = profileSubtitle.textContent
+    openPopup(popupProfile)
+}
