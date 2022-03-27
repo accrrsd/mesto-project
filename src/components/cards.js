@@ -1,25 +1,20 @@
-import { initialCards, popupAddCard, popupAddCardName, popupAddCardForm, popupAddCardUrl, popupImagePicture, popupImageTitle, placeContainer, popupImage} from "./variables.js";
-import {closePopup, openPopup} from "./modal.js"
-import {toggleButtonBlock} from './validate'
+import { initialCards, popupAddCard, popupAddCardName, popupAddCardForm, popupAddCardUrl, popupImagePicture, popupImageTitle, placeContainer, popupImage } from './variables.js'
+import { closePopup, openPopup } from './modal.js'
+import { toggleButtonBlock } from './validate'
 
 // Карточка
-popupAddCardForm.addEventListener('submit', e => {
+popupAddCardForm.addEventListener('submit', (e) => {
   e.preventDefault()
-  const newPlace = createPlace(
-    popupAddCardName.value,
-    popupAddCardUrl.value,
-    popupAddCardName.value
-  )
+  const newPlace = createPlace(popupAddCardName.value, popupAddCardUrl.value, popupAddCardName.value)
 
   placeContainer.prepend(newPlace)
 
-  const submitBtn=popupAddCardForm.querySelector('.form__submit')
+  const submitBtn = popupAddCardForm.querySelector('.form__submit')
 
   closePopup(popupAddCard)
   popupAddCardForm.reset()
-  toggleButtonBlock(submitBtn,'form__submit_disabled', true)
+  toggleButtonBlock(submitBtn, 'form__submit_disabled', true)
 })
-
 
 // Создание карточки
 function createPlace(name, url, alt) {
@@ -67,7 +62,7 @@ function createPlace(name, url, alt) {
 // Отрисовка мест
 export function renderPlaces() {
   placeContainer.innerHTML = ''
-  initialCards.forEach(card => {
+  initialCards.forEach((card) => {
     placeContainer.append(createPlace(card.name, card.link, card.name))
   })
 }

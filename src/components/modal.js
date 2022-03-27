@@ -2,9 +2,9 @@
 const overlays = Array.from(document.querySelectorAll('.popup'))
 
 // Ивенты закрытия
-overlays.forEach(overlay=>{
-  overlay.addEventListener('click',e=>{
-    if (e.target===overlay || e.target.classList.contains('popup__close')){
+overlays.forEach((overlay) => {
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay || e.target.classList.contains('popup__close')) {
       closePopup(overlay)
     }
   })
@@ -13,20 +13,20 @@ overlays.forEach(overlay=>{
 // Открытие
 export function openPopup(popup) {
   popup.classList.add('popup_opened')
-  document.addEventListener('keydown',handleEscKey)
+  document.addEventListener('keydown', handleEscKey)
 }
 
 // Закрытие
 export function closePopup(popup) {
   popup.classList.remove('popup_opened')
-  document.removeEventListener('keydown',handleEscKey)
+  document.removeEventListener('keydown', handleEscKey)
 }
 
 // Слушатель
-function handleEscKey(e){
-  if (e.key==='Escape'){
+function handleEscKey(e) {
+  if (e.key === 'Escape') {
     const openedPopup = document.querySelector('.popup_opened')
-    if (openedPopup){
+    if (openedPopup) {
       closePopup(openedPopup)
     }
   }

@@ -6,14 +6,12 @@ export const popupProfile = document.querySelector('.popup_type_profile')
 export const profileEditButton = document.querySelector('#profile-edit')
 export const addCardButton = document.querySelector('#add-card')
 
-
 // Профиль
 export const profileTitle = document.querySelector('.profile__title')
 export const profileSubtitle = document.querySelector('.profile__subtitle')
 
 // Контейнер мест
 export const placeContainer = document.querySelector('.places')
-
 
 //Данные из попапов
 // Профиль
@@ -29,7 +27,6 @@ export const popupAddCardForm = popupAddCard.querySelector('form[name="card-set"
 // Картинка
 export const popupImageTitle = popupImage.querySelector('.popup__title')
 export const popupImagePicture = popupImage.querySelector('.popup__picture')
-
 
 export const initialCards = [
   {
