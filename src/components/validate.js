@@ -6,11 +6,14 @@ export function enableValidation({formSelector,inputSelector,submitButtonSelecto
     // Пока поля незаполнены в первый раз, кнопка пуста
     toggleButtonBlock(submitBtn, inactiveButtonClass, inputs.some(input=>!input.validity.valid))
 
-
     inputs.forEach(input=>{input.addEventListener('input',()=>{
       checkValid(form,input,inputErrorClass,errorClass)
       toggleButtonBlock(submitBtn, inactiveButtonClass, inputs.some(input=>!input.validity.valid))
-    })})
+    })
+
+    // Первая проверка валидности полей
+    checkValid(form,input,inputErrorClass,errorClass)  
+  })
   })
 }
 
