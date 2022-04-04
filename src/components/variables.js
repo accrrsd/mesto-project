@@ -1,10 +1,12 @@
 export const popupImage = document.querySelector('.popup_type_image')
 export const popupAddCard = document.querySelector('.popup_type_add-card')
 export const popupProfile = document.querySelector('.popup_type_profile')
-
+export const popupAvatar = document.querySelector('.popup_type_avatar-edit')
+export const popupDelete = document.querySelector('.popup_type_delete')
 // Триггеры попапов
 export const profileEditButton = document.querySelector('#profile-edit')
 export const addCardButton = document.querySelector('#add-card')
+export const profileAvatar = document.querySelector('.profile__avatar')
 
 // Профиль
 export const profileTitle = document.querySelector('.profile__title')
@@ -28,29 +30,13 @@ export const popupAddCardForm = popupAddCard.querySelector('form[name="card-set"
 export const popupImageTitle = popupImage.querySelector('.popup__title')
 export const popupImagePicture = popupImage.querySelector('.popup__picture')
 
-export const initialCards = [
-  {
-    name: 'Архыз',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg',
-  },
-  {
-    name: 'Челябинская область',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg',
-  },
-  {
-    name: 'Иваново',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg',
-  },
-  {
-    name: 'Камчатка',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg',
-  },
-  {
-    name: 'Холмогорский район',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg',
-  },
-  {
-    name: 'Байкал',
-    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg',
-  },
-]
+// Аватарка
+export const popupAvatarUrl = popupAvatar.querySelector('input[name="url"]')
+export const popupAvatarForm = popupAvatar.querySelector('form[name="avatar-set"]')
+
+// Удаление
+export const popupDeleteForm = popupDelete.querySelector('form[name="delete-form"]')
+
+export function findSubmitBtn(popup) {
+  return popup.querySelector('.form__submit')
+}

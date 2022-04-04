@@ -1,9 +1,10 @@
 import './styles/index.css'
-import { profileEditButton, popupProfile, addCardButton, popupAddCard } from './components/variables.js'
+import { profileEditButton, profileAvatar, addCardButton, popupAddCard, popupAvatar } from './components/variables.js'
 import { openPopup } from './components/modal.js'
 import { enableValidation } from './components/validate.js'
 import { renderPlaces } from './components/cards'
 import { openProfilePopup } from './components/profile'
+import { buildFetchData } from './components/api'
 
 const validationSettings = {
   formSelector: '.form',
@@ -25,6 +26,11 @@ profileEditButton.addEventListener('click', () => {
 addCardButton.addEventListener('click', () => {
   openPopup(popupAddCard)
 })
+profileAvatar.addEventListener('click', () => {
+  openPopup(popupAvatar)
+})
 
-// Отрисовка карточек
-renderPlaces()
+// Отрисовка карточек с сервера
+buildFetchData('cards', 'jsonGet').then((serverCards) => {
+  renderPlaces(serverCards)
+})

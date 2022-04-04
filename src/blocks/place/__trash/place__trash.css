@@ -1,6 +1,8 @@
 .place__trash {
   position: absolute;
 
+  display: none;
+
   top: 20px;
   right: 20px;
 
