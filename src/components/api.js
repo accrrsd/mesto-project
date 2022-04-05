@@ -12,6 +12,7 @@ export const baseUrlAddress = `${serverAddress}/v1/${cohortId}/`
  * @returns
  */
 
+// Универсальная функция построения fetch
 export const buildFetchData = (specifyUrl, configType, inBody) => {
   const jsonHeaders = { authorization: token, 'Content-Type': 'application/json' }
   const types = {
@@ -36,11 +37,10 @@ export const buildFetchData = (specifyUrl, configType, inBody) => {
       headers: jsonHeaders,
     },
   }
-
+  // Если передаем данные, они автоматически приводятся к нужному виду и отправляются в body
   if (inBody) {
     types[configType].body = JSON.stringify(inBody)
   }
-
   return fetch(baseUrlAddress + specifyUrl, types[configType])
     .then((res) => {
       if (!res.ok) {
