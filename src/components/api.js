@@ -4,10 +4,6 @@ export const token = '749be577-3087-4ee3-ace3-b4e48a9a8c49'
 export const serverAddress = 'https://mesto.nomoreparties.co'
 export const baseUrlAddress = `${serverAddress}/v1/${cohortId}/`
 
-export function reloadPage() {
-  document.location.reload()
-}
-
 /**
  *
  * @param {url} specifyUrl Уточняющая ссылка

@@ -5,8 +5,6 @@ import { buildFetchData } from './api'
 
 const myId = '4d7df922d9711d87040b3058'
 
-//!Не появляется ведро без обновления страницы
-
 // Попап карточек
 popupAddCardForm.addEventListener('submit', (e) => {
   e.preventDefault()
@@ -48,12 +46,9 @@ function createPlace(name, url, alt, cardId, ownerId, likes) {
   const likeCount = currentPlace.querySelector('.place__like-count')
 
   if (likes) {
-    likeCount.textContent = likes.length
     // Проверка на уже поставленные лайки
-    if (likes.length === 0) {
-      likeCount.textContent = ''
-    }
     if (likes.length > 0) {
+      likeCount.textContent = likes.length
       if (likes.find((like) => like._id === myId)) {
         likeButton.classList.add('place__like_active')
       }
@@ -69,7 +64,7 @@ function createPlace(name, url, alt, cardId, ownerId, likes) {
       buildFetchData('cards', 'jsonGet').then((serverCards) => {
         // Получаем обновленные данные с сервера
         const equalCard = serverCards.find((card) => card._id === cardId)
-        likeCount.textContent = equalCard.likes.length
+        likeCount.textContent = equalCard.likes.length > 0 ? equalCard.likes.length : ''
       })
     })
   })

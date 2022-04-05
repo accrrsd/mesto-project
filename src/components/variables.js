@@ -37,6 +37,7 @@ export const popupAvatarForm = popupAvatar.querySelector('form[name="avatar-set"
 // Удаление
 export const popupDeleteForm = popupDelete.querySelector('form[name="delete-form"]')
 
+// Поиск кнопки отправки
 export function findSubmitBtn(popup) {
   return popup.querySelector('.form__submit')
 }
