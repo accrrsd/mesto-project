@@ -1,6 +1,7 @@
 import { closePopup, openPopup } from './modal.js'
-import { profileTitle, profileSubtitle, profileAvatar, popupAvatar, popupAvatarUrl, popupAvatarForm, popupProfile, popupProfileForm, popupProfileName, popupProfileSubname, findSubmitBtn } from './variables'
+import { profileTitle, profileSubtitle, profileAvatar, popupAvatar, popupAvatarUrl, popupAvatarForm, popupProfile, popupProfileForm, popupProfileName, popupProfileSubname } from './variables'
 import { buildFetchData } from './api'
+import { findSubmitBtn } from './utils.js'
 
 // Обновление профиля
 popupProfileForm.addEventListener('submit', (e) => {
