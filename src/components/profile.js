@@ -9,16 +9,18 @@ popupProfileForm.addEventListener('submit', (e) => {
   const submitBtn = e.submitter
   submitBtn.textContent = 'Сохранение...'
 
-  // Получение данных из попапа
-  profileTitle.textContent = popupProfileName.value
-  profileSubtitle.textContent = popupProfileSubname.value
-
   loadProfileOnServer({ name: popupProfileName.value, about: popupProfileSubname.value })
     .then(() => {
-      closePopup(popupProfile)
+      // Получение данных из попапа
+      profileTitle.textContent = popupProfileName.value
+      profileSubtitle.textContent = popupProfileSubname.value
     })
     .catch((err) => console.log(err))
-    .finally(() => (submitBtn.textContent = 'Сохранить'))
+    .finally(() => {
+      submitBtn.textContent = 'Сохранить'
+      closePopup(popupProfile)
+      toggleButtonBlock(submitBtn, 'form__submit_disabled', true)
+    })
 })
 
 // Обновление аватарки
