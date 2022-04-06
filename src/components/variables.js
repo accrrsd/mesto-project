@@ -2,7 +2,6 @@ export const popupImage = document.querySelector('.popup_type_image')
 export const popupAddCard = document.querySelector('.popup_type_add-card')
 export const popupProfile = document.querySelector('.popup_type_profile')
 export const popupAvatar = document.querySelector('.popup_type_avatar-edit')
-export const popupDelete = document.querySelector('.popup_type_delete')
 // Триггеры попапов
 export const profileEditButton = document.querySelector('#profile-edit')
 export const addCardButton = document.querySelector('#add-card')
@@ -35,4 +34,3 @@ export const popupAvatarUrl = popupAvatar.querySelector('input[name="url"]')
 export const popupAvatarForm = popupAvatar.querySelector('form[name="avatar-set"]')
 
 // Удаление
-export const popupDeleteForm = popupDelete.querySelector('form[name="delete-form"]')

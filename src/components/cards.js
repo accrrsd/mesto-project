@@ -1,26 +1,30 @@
-import { popupAddCard, popupAddCardName, popupAddCardForm, popupAddCardUrl, popupImagePicture, popupImageTitle, placeContainer, popupImage, popupDelete, popupDeleteForm } from './variables.js'
+import { popupAddCard, popupAddCardName, popupAddCardForm, popupAddCardUrl, popupImagePicture, popupImageTitle, placeContainer, popupImage } from './variables.js'
 import { closePopup, openPopup } from './modal.js'
 import { toggleButtonBlock } from './validate'
-import { buildFetchData } from './api'
-import { findSubmitBtn } from './utils.js'
+import { postCardOnServer, deleteServerCard, loadCardLikeOnServer } from './api.js'
 
-const myId = '4d7df922d9711d87040b3058'
+let myId
 
 // Попап карточек
 popupAddCardForm.addEventListener('submit', (e) => {
   e.preventDefault()
   // Локальное создание карточки
-  const submitBtn = findSubmitBtn(popupAddCardForm)
+  const submitBtn = e.submitter
   submitBtn.textContent = 'Сохранение...'
 
   // Отправка карточки на сервер
-  buildFetchData('cards', 'jsonPost', { name: popupAddCardName.value, link: popupAddCardUrl.value }).then((res) => {
-    const newPlace = createPlace(res.name, res.link, res.name, res._id, res.owner._id, res.likes)
-    placeContainer.prepend(newPlace)
-    closePopup(popupAddCard)
-    popupAddCardForm.reset()
-    toggleButtonBlock(submitBtn, 'form__submit_disabled', true)
-  })
+  postCardOnServer({ name: popupAddCardName.value, link: popupAddCardUrl.value })
+    .then((res) => {
+      const newPlace = createPlace(res.name, res.link, res.name, res._id, res.owner._id, res.likes)
+      placeContainer.prepend(newPlace)
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      closePopup(popupAddCard)
+      popupAddCardForm.reset()
+      submitBtn.textContent = 'Сохранить'
+      toggleButtonBlock(submitBtn, 'form__submit_disabled', true)
+    })
 })
 
 // Создание карточки
@@ -57,43 +61,29 @@ function createPlace(name, url, alt, cardId, ownerId, likes) {
   }
 
   likeButton.addEventListener('click', () => {
-    likeButton.classList.toggle('place__like_active')
-
     // Отправляем или удаляем лайк с сервера
-    const method = likeButton.classList.contains('place__like_active') ? 'jsonPut' : 'jsonDelete'
-    buildFetchData(`cards/likes/${cardId}`, method).then(() => {
-      buildFetchData('cards', 'jsonGet').then((serverCards) => {
-        // Получаем обновленные данные с сервера
-        const equalCard = serverCards.find((card) => card._id === cardId)
-        likeCount.textContent = equalCard.likes.length > 0 ? equalCard.likes.length : ''
+    // Обратный метод, т.к сначала мы отправляем, а потом переключаем
+    const method = likeButton.classList.contains('place__like_active') ? 'jsonDelete' : 'jsonPut'
+
+    loadCardLikeOnServer(method, cardId)
+      .then((res) => {
+        likeButton.classList.toggle('place__like_active')
+        likeCount.textContent = res.likes.length > 0 ? res.likes.length : ''
       })
-    })
+      .catch((err) => console.log(err))
   })
   // Удалить
   if (ownerId === myId) {
     const deletePlaceButton = currentPlace.querySelector('.place__trash')
     deletePlaceButton.style.display = 'block'
     deletePlaceButton.addEventListener('click', () => {
-      openPopup(popupDelete)
-      popupDeleteForm.addEventListener('submit', (e) => {
-        e.preventDefault()
-        const submitBtn = findSubmitBtn(popupDelete)
-        submitBtn.textContent = 'Удаление...'
-
-        // Удаляем конкретную карточку
-        popupDelete.addEventListener('submit', deleteCard)
-        popupDelete.params = cardId
-        closePopup(popupDelete)
-        function deleteCard(e) {
-          const localCardId = e.currentTarget.params
-          buildFetchData(`cards/${localCardId}`, 'jsonDelete').then(() => {
-            currentPlace.remove()
-            closePopup(popupDelete)
-            submitBtn.textContent = 'Удалить'
-            popupDelete.removeEventListener('submit', deleteCard)
-          })
-        }
-      })
+      deleteServerCard(cardId)
+        .then(() => {
+          currentPlace.remove()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     })
   }
   // Открыть картинку
@@ -109,10 +99,15 @@ function createPlace(name, url, alt, cardId, ownerId, likes) {
   return place
 }
 
+// Техническая функция, если ID присваивать напрямую - будет странная ошибка с Babel
+export function getId(idHandler) {
+  myId = idHandler
+}
+
 // Отрисовка мест
-export function renderPlaces(massiveCards) {
+export function renderPlaces(cardArray) {
   placeContainer.innerHTML = ''
-  massiveCards.forEach((card) => {
+  cardArray.forEach((card) => {
     // console.log(card)
     placeContainer.append(createPlace(card.name, card.link, card.name, card._id, card.owner._id, card.likes))
   })

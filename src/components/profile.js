@@ -1,36 +1,40 @@
 import { closePopup, openPopup } from './modal.js'
 import { profileTitle, profileSubtitle, profileAvatar, popupAvatar, popupAvatarUrl, popupAvatarForm, popupProfile, popupProfileForm, popupProfileName, popupProfileSubname } from './variables'
-import { buildFetchData } from './api'
-import { findSubmitBtn } from './utils.js'
+import { loadProfileOnServer, loadAvatarOnServer } from './api'
 
 // Обновление профиля
 popupProfileForm.addEventListener('submit', (e) => {
   e.preventDefault()
-
-  const submitBtn = findSubmitBtn(popupProfileForm)
+  const submitBtn = e.submitter
   submitBtn.textContent = 'Сохранение...'
 
   // Получение данных из попапа
   profileTitle.textContent = popupProfileName.value
   profileSubtitle.textContent = popupProfileSubname.value
 
-  buildFetchData('users/me', 'jsonPatch', { name: popupProfileName.value, about: popupProfileSubname.value }).then(() => {
-    submitBtn.textContent = 'Сохранить'
-    closePopup(popupProfile)
-  })
+  loadProfileOnServer({ name: popupProfileName.value, about: popupProfileSubname.value })
+    .then(() => {
+      closePopup(popupProfile)
+    })
+    .catch((err) => console.log(err))
+    .finally(() => (submitBtn.textContent = 'Сохранить'))
 })
 
 // Обновление аватарки
 popupAvatar.addEventListener('submit', (e) => {
   e.preventDefault()
-  const submitBtn = findSubmitBtn(popupAvatar)
+  const submitBtn = e.submitter
   submitBtn.textContent = 'Сохранение...'
-  buildFetchData('users/me/avatar', 'jsonPatch', { avatar: popupAvatarUrl.value }).then(() => {
-    profileAvatar.src = popupAvatarUrl.value
-    closePopup(popupAvatar)
-    submitBtn.textContent = 'Сохранить'
-    popupAvatarForm.reset()
-  })
+  loadAvatarOnServer({ avatar: popupAvatarUrl.value })
+    .then(() => {
+      profileAvatar.src = popupAvatarUrl.value
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      closePopup(popupAvatar)
+      submitBtn.textContent = 'Сохранить'
+      popupAvatarForm.reset()
+    })
 })
 
 export function openProfilePopup() {
@@ -39,10 +43,3 @@ export function openProfilePopup() {
   popupProfileSubname.value = profileSubtitle.textContent
   openPopup(popupProfile)
 }
-
-// Получение профиля
-buildFetchData('users/me', 'jsonGet').then((profileServerData) => {
-  profileTitle.textContent = profileServerData.name
-  profileSubtitle.textContent = profileServerData.about
-  profileAvatar.src = profileServerData.avatar
-})

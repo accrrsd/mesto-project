@@ -1,10 +1,10 @@
 import './styles/index.css'
-import { profileEditButton, profileAvatar, addCardButton, popupAddCard, popupAvatar } from './components/variables.js'
+import { profileEditButton, profileTitle, profileSubtitle, profileAvatar, addCardButton, popupAddCard, popupAvatar } from './components/variables.js'
 import { openPopup } from './components/modal.js'
 import { enableValidation } from './components/validate.js'
-import { renderPlaces } from './components/cards'
+import { getId, renderPlaces } from './components/cards'
 import { openProfilePopup } from './components/profile'
-import { buildFetchData } from './components/api'
+import { getProfileFromServer, getCardsFromServer } from './components/api'
 
 const validationSettings = {
   formSelector: '.form',
@@ -26,11 +26,22 @@ profileEditButton.addEventListener('click', () => {
 addCardButton.addEventListener('click', () => {
   openPopup(popupAddCard)
 })
+
 profileAvatar.addEventListener('click', () => {
   openPopup(popupAvatar)
 })
 
-// Отрисовка карточек с сервера
-buildFetchData('cards', 'jsonGet').then((serverCards) => {
-  renderPlaces(serverCards)
-})
+// Запрос карточек и данных с сервера
+Promise.all([getProfileFromServer(), getCardsFromServer()])
+  .then(([profileData, cardsArray]) => {
+    // Установка данных пользователя
+    profileTitle.textContent = profileData.name
+    profileSubtitle.textContent = profileData.about
+    profileAvatar.src = profileData.avatar
+    getId(profileData._id)
+    // Отрисовка карт
+    renderPlaces(cardsArray)
+  })
+  .catch((err) => {
+    console.log(err)
+  })
