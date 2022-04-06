@@ -14,12 +14,12 @@ popupProfileForm.addEventListener('submit', (e) => {
       // Получение данных из попапа
       profileTitle.textContent = popupProfileName.value
       profileSubtitle.textContent = popupProfileSubname.value
+      closePopup(popupProfile)
+      toggleButtonBlock(submitBtn, 'form__submit_disabled', true)
     })
     .catch((err) => console.log(err))
     .finally(() => {
       submitBtn.textContent = 'Сохранить'
-      closePopup(popupProfile)
-      toggleButtonBlock(submitBtn, 'form__submit_disabled', true)
     })
 })
 
@@ -31,13 +31,13 @@ popupAvatar.addEventListener('submit', (e) => {
   loadAvatarOnServer({ avatar: popupAvatarUrl.value })
     .then(() => {
       profileAvatar.src = popupAvatarUrl.value
+      closePopup(popupAvatar)
+      popupAvatarForm.reset()
+      toggleButtonBlock(submitBtn, 'form__submit_disabled', true)
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      closePopup(popupAvatar)
       submitBtn.textContent = 'Сохранить'
-      popupAvatarForm.reset()
-      toggleButtonBlock(submitBtn, 'form__submit_disabled', true)
     })
 })
 

@@ -28,53 +28,43 @@ const types = {
   },
 }
 
+function checkResponse(res) {
+  return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
+}
+
 export const getCardsFromServer = () => {
   const type = types['jsonGet']
-  return fetch(baseUrlAddress + 'cards', type).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
-  })
+  return fetch(baseUrlAddress + 'cards', type).then(checkResponse)
 }
 
 export const postCardOnServer = (inBody) => {
   const type = types['jsonPost']
   type.body = JSON.stringify(inBody)
-  return fetch(baseUrlAddress + 'cards', type).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
-  })
+  return fetch(baseUrlAddress + 'cards', type).then(checkResponse)
 }
 
 export const deleteServerCard = (cardId) => {
   const type = types['jsonDelete']
-  return fetch(baseUrlAddress + `cards/${cardId}`, type).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
-  })
+  return fetch(baseUrlAddress + `cards/${cardId}`, type).then(checkResponse)
 }
 
 export const loadCardLikeOnServer = (method, cardId) => {
   const type = types[method]
-  return fetch(baseUrlAddress + `cards/likes/${cardId}`, type).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
-  })
+  return fetch(baseUrlAddress + `cards/likes/${cardId}`, type).then(checkResponse)
 }
 
 export const getProfileFromServer = () => {
   const type = types['jsonGet']
-  return fetch(baseUrlAddress + 'users/me', type).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
-  })
+  return fetch(baseUrlAddress + 'users/me', type).then(checkResponse)
 }
 
 export const loadProfileOnServer = (inBody) => {
   const type = types['jsonPatch']
   type.body = JSON.stringify(inBody)
-  return fetch(baseUrlAddress + 'users/me', type).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
-  })
+  return fetch(baseUrlAddress + 'users/me', type).then(checkResponse)
 }
 export const loadAvatarOnServer = (inBody) => {
   const type = types['jsonPatch']
   type.body = JSON.stringify(inBody)
-  return fetch(baseUrlAddress + 'users/me/avatar', type).then((res) => {
-    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
-  })
+  return fetch(baseUrlAddress + 'users/me/avatar', type).then(checkResponse)
 }

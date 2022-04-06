@@ -17,13 +17,13 @@ popupAddCardForm.addEventListener('submit', (e) => {
     .then((res) => {
       const newPlace = createPlace(res.name, res.link, res.name, res._id, res.owner._id, res.likes)
       placeContainer.prepend(newPlace)
+      closePopup(popupAddCard)
+      popupAddCardForm.reset()
+      toggleButtonBlock(submitBtn, 'form__submit_disabled', true)
     })
     .catch((err) => console.log(err))
     .finally(() => {
-      closePopup(popupAddCard)
-      popupAddCardForm.reset()
       submitBtn.textContent = 'Сохранить'
-      toggleButtonBlock(submitBtn, 'form__submit_disabled', true)
     })
 })
 
