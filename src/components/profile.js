@@ -1,6 +1,7 @@
 import { closePopup, openPopup } from './modal.js'
 import { profileTitle, profileSubtitle, profileAvatar, popupAvatar, popupAvatarUrl, popupAvatarForm, popupProfile, popupProfileForm, popupProfileName, popupProfileSubname } from './variables'
 import { loadProfileOnServer, loadAvatarOnServer } from './api'
+import { toggleButtonBlock } from './validate'
 
 // Обновление профиля
 popupProfileForm.addEventListener('submit', (e) => {
@@ -34,6 +35,7 @@ popupAvatar.addEventListener('submit', (e) => {
       closePopup(popupAvatar)
       submitBtn.textContent = 'Сохранить'
       popupAvatarForm.reset()
+      toggleButtonBlock(submitBtn, 'form__submit_disabled', true)
     })
 })
 
