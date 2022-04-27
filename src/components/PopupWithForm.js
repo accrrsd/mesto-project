@@ -15,11 +15,13 @@ export class PopupWithForm extends Popup {
       obj[input.name] = input.value
       valueArray.push(obj)
     })
+    return valueArray
   }
 
   setEventListeners() {
     super.setEventListeners()
-    //? Обработчик сабмита (апи)
+    //? На месте калбека - функция отправки из АПИ + всякое взаимодействие по типу "сохранение.."
+    this._element.addEventListener('submit', callback)
   }
 
   close() {
