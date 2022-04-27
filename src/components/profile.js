@@ -1,4 +1,4 @@
-import { closePopup, openPopup } from './modal.js'
+// import { closePopup, openPopup } from './modal.js'
 import { profileTitle, profileSubtitle, profileAvatar, popupAvatar, popupAvatarUrl, popupAvatarForm, popupProfile, popupProfileForm, popupProfileName, popupProfileSubname } from './variables'
 import { loadProfileOnServer, loadAvatarOnServer } from './api'
 import { toggleButtonBlock } from './validate'

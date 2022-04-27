@@ -1,10 +1,14 @@
 import './styles/index.css'
 import { profileEditButton, profileTitle, profileSubtitle, profileAvatar, addCardButton, popupAddCard, popupAvatar } from './components/variables.js'
-import { openPopup } from './components/modal.js'
+// import { openPopup } from './components/modal.js'
 import { enableValidation } from './components/validate.js'
 import { getId, renderPlaces } from './components/cards'
-import { openProfilePopup } from './components/profile'
+// import { openProfilePopup } from './components/profile'
 import { getProfileFromServer, getCardsFromServer } from './components/api'
+
+// Объекты
+import { profilePopupObject } from './components/ProfilePopup.js'
+import { avatarPopupObject } from './components/AvatarPopup'
 
 const validationSettings = {
   formSelector: '.form',
@@ -20,7 +24,7 @@ enableValidation(validationSettings)
 
 // Ивенты открытия попапов
 profileEditButton.addEventListener('click', () => {
-  openProfilePopup()
+  profilePopupObject.open()
 })
 
 addCardButton.addEventListener('click', () => {
@@ -28,7 +32,7 @@ addCardButton.addEventListener('click', () => {
 })
 
 profileAvatar.addEventListener('click', () => {
-  openPopup(popupAvatar)
+  avatarPopupObject.open()
 })
 
 // Запрос карточек и данных с сервера

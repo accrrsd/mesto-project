@@ -1,5 +1,5 @@
 import { popupAddCard, popupAddCardName, popupAddCardForm, popupAddCardUrl, popupImagePicture, popupImageTitle, placeContainer, popupImage } from './variables.js'
-import { closePopup, openPopup } from './modal.js'
+// import { closePopup, openPopup } from './modal.js'
 import { toggleButtonBlock } from './validate'
 import { postCardOnServer, deleteServerCard, loadCardLikeOnServer } from './api.js'
 
