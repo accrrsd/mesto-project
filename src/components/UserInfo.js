@@ -1,19 +1,29 @@
-export class UserInfo {
-  constructor(nameSelector, subnameSelector) {
+export default class UserInfo {
+  constructor(nameSelector, subnameSelector, avatarSelector) {
     this.name = this._getElement(nameSelector)
     this.subname = this._getElement(subnameSelector)
+    this.avatar = this._getElement(avatarSelector)
   }
+
   _getElement(selector, parentElem) {
     return parentElem ? parentElem.querySelector(selector) : document.querySelector(selector)
   }
 
-  getUserInfo() {
-    //? Работа с Апи
+  getUserInfo(api) {
+    return api.getProfileFromServer()
+  }
+  setUserInfo({ name, about }, api) {
+    this.name.textContent = name
+    this.subname.textContent = about
+    if (api) {
+      return api.loadProfileOnServer({ name, about })
+    }
   }
 
-  setUserInfo(newName, newSubname) {
-    //? Работа с Апи
-    this.name.textContent = newName
-    this.subname.textContent = newSubname
+  setUserAvatar({ avatar }, api) {
+    this.avatar.src = avatar
+    if (api) {
+      return api.loadAvatarOnServer({ avatar })
+    }
   }
 }

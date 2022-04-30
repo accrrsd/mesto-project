@@ -38,10 +38,10 @@
         <button type="button" class="popup__close"></button>
         <h2 class="popup__title">Редактировать профиль</h2>
         <form name="profile-set">
-          <fieldset class="form">
+          <fieldset class="form-fieldset">
             <input id="profile-name" name="name" type="text" class="form__field" minlength="2" maxlength="40" required novalidate />
             <span class="profile-name-error form__field-error"></span>
-            <input id="profile-subname" name="subname" type="text" class="form__field" minlength="2" maxlength="200" required novalidate />
+            <input id="profile-subname" name="about" type="text" class="form__field" minlength="2" maxlength="200" required novalidate />
             <span class="profile-subname-error form__field-error"></span>
             <button type="submit" class="form__submit" novalidate>Сохранить</button>
           </fieldset>
@@ -54,10 +54,10 @@
         <button type="button" class="popup__close"></button>
         <h2 class="popup__title">Новое место</h2>
         <form name="card-set">
-          <fieldset class="form">
-            <input id="card-name" name="image-name" type="text" class="form__field" placeholder="Название" minlength="2" maxlength="30" required novalidate />
+          <fieldset class="form-fieldset">
+            <input id="card-name" name="name" type="text" class="form__field" placeholder="Название" minlength="2" maxlength="30" required novalidate />
             <span class="card-name-error form__field-error"></span>
-            <input id="card-url" name="url" type="url" class="form__field" placeholder="Ссылка на картинку" required novalidate />
+            <input id="card-url" name="link" type="url" class="form__field" placeholder="Ссылка на картинку" required novalidate />
             <span class="card-url-error form__field-error"></span>
             <button type="submit" class="form__submit" novalidate>Создать</button>
           </fieldset>
@@ -78,8 +78,8 @@
         <button type="button" class="popup__close"></button>
         <h2 class="popup__title">Обновить аватар</h2>
         <form name="avatar-set">
-          <fieldset class="form">
-            <input id="avatar-url" name="url" type="url" class="form__field" placeholder="Ссылка на картинку" required novalidate />
+          <fieldset class="form-fieldset">
+            <input id="avatar-url" name="avatar" type="url" class="form__field" placeholder="Ссылка на картинку" required novalidate />
             <span class="avatar-url-error form__field-error"></span>
             <button type="submit" class="form__submit" novalidate>Сохранить</button>
           </fieldset>

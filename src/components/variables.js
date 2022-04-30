@@ -17,12 +17,12 @@ export const placeContainer = document.querySelector('.places')
 //Данные из попапов
 // Профиль
 export const popupProfileName = popupProfile.querySelector('input[name="name"]')
-export const popupProfileSubname = popupProfile.querySelector('input[name="subname"]')
+export const popupProfileSubname = popupProfile.querySelector('input[name="about"]')
 export const popupProfileForm = popupProfile.querySelector('form[name="profile-set"]')
 
 // Карточка
-export const popupAddCardName = popupAddCard.querySelector('input[name="image-name"]')
-export const popupAddCardUrl = popupAddCard.querySelector('input[name="url"]')
+export const popupAddCardName = popupAddCard.querySelector('input[name="name"]')
+export const popupAddCardUrl = popupAddCard.querySelector('input[name="link"]')
 export const popupAddCardForm = popupAddCard.querySelector('form[name="card-set"]')
 
 // Картинка
@@ -30,7 +30,11 @@ export const popupImageTitle = popupImage.querySelector('.popup__title')
 export const popupImagePicture = popupImage.querySelector('.popup__picture')
 
 // Аватарка
-export const popupAvatarUrl = popupAvatar.querySelector('input[name="url"]')
+export const popupAvatarUrl = popupAvatar.querySelector('input[name="avatar"]')
 export const popupAvatarForm = popupAvatar.querySelector('form[name="avatar-set"]')
 
-// Удаление
+// Данные пользователя
+export const cohortId = 'plus-cohort-8'
+export const token = '749be577-3087-4ee3-ace3-b4e48a9a8c49'
+export const serverAddress = 'https://mesto.nomoreparties.co'
+export const baseUrlAddress = `${serverAddress}/v1/${cohortId}/`

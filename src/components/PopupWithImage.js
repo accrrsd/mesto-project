@@ -1,5 +1,5 @@
-import { Popup } from './Popup'
-export class PopupWithImage extends Popup {
+import Popup from './Popup'
+export default class PopupWithImage extends Popup {
   constructor(selector) {
     super(selector)
     this._image = this._getElement('.popup__picture', this._element)
@@ -14,6 +14,3 @@ export class PopupWithImage extends Popup {
     }
   }
 }
-
-// this._image = this._element.querySelector('.popup__picture')
-// this._imageTitle = this._element.querySelector('.popup__title')

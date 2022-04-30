@@ -1,14 +1,13 @@
-import { Popup } from './Popup'
+import Popup from './Popup'
 
-export class PopupWithForm extends Popup {
+export default class PopupWithForm extends Popup {
   constructor(selector, callback) {
     super(selector)
     this._callback = callback
-    this.inputValues = this._getInputValues()
+    this._form = this._getElement('form', this._element)
   }
 
   _getInputValues() {
-    this._form = this._element.querySelector('.form')
     const valueArray = []
     this._form.querySelectorAll('input').forEach((input) => {
       const obj = {}
@@ -20,8 +19,17 @@ export class PopupWithForm extends Popup {
 
   setEventListeners() {
     super.setEventListeners()
-    //? На месте калбека - функция отправки из АПИ + всякое взаимодействие по типу "сохранение.."
-    this._element.addEventListener('submit', callback)
+    //На месте калбека - передаваемая функция, которая работает с апи и then
+    this._element.addEventListener('submit', (e) => {
+      e.preventDefault()
+      const values = Object.fromEntries(
+        this._getInputValues().map((n) => {
+          const key = Object.keys(n)
+          return [key, n[key]]
+        })
+      )
+      this._callback(e, values)
+    })
   }
 
   close() {
