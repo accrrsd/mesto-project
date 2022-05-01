@@ -21,6 +21,7 @@ import { token, baseUrlAddress } from './components/variables.js'
 //Селекторы
 const cardSelector = '#place-template';
 const popupImageSelector = '.popup_type_image';
+const placesSelector = '.places';
 
 const apiOptions = {
   baseUrl: baseUrlAddress,
@@ -129,7 +130,7 @@ const cardsArray = new Section({
     const cardElement = card.createPlace();
     cardsArray.addItem(cardElement);
   }
-}, cardSelector);
+}, placesSelector);
 
 const createNewCard = (data) => {
   const card = new Card(data, cardSelector, openPopup, checkLike, deleteCard )

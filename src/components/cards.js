@@ -10,12 +10,11 @@ export default class Card {
     this._cardSelector = cardSelector;
     this._data = data;
     this._name = data.name;
-    this._url = data.url;
+    this._url = data.link;
     this._likes = data.likes;
     this._openPopup = openPopup;
     this._checkLike = checkLike;
     this._deleteCard = deleteCard;
-    // this
   }
 
   _getCardElement() {
@@ -35,6 +34,12 @@ export default class Card {
     this._element.querySelector('.place__like-count').textContent = this._likes;
 
     this._setEventListeners();
+
+    return this._element;
+
+  }
+
+  _deleteCard() {
 
   }
 
@@ -65,6 +70,9 @@ export default class Card {
     this._trash.addEventListener('click', () => {
       this._deleteCard(this._data._cardId);
     })
+
+    
+
   }
 
 }
