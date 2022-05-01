@@ -19,9 +19,9 @@ import { profileEditButton, profileAvatar, addCardButton } from './components/va
 import { token, baseUrlAddress } from './components/variables.js'
 
 //Селекторы
-const cardSelector = '#place-template';
-const popupImageSelector = '.popup_type_image';
-const placesSelector = '.places';
+const cardSelector = '#place-template'
+const popupImageSelector = '.popup_type_image'
+const placesSelector = '.places'
 
 const apiOptions = {
   baseUrl: baseUrlAddress,
@@ -97,8 +97,23 @@ const profilePopupLogic = new PopupWithForm('.popup_type_profile', (evt, values)
 })
 
 const cardPopupLogic = new PopupWithForm('.popup_type_add-card', (evt, values) => {
-  //Калбек
-  //Для завершения необходим переработанный объект карт и секции.
+  const submitBtn = evt.submitter
+  submitBtn.textContent = 'Сохранение...'
+  api
+    .postCardOnServer(values)
+    .then((data) => {
+      cardPopupLogic.close()
+      cardValidator.toggleButtonBlock(submitBtn, true)
+
+      // !! Правильный метод добавления карт в список
+      // cardsArray.renderCards(data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    .finally(() => {
+      submitBtn.textContent = 'Сохранить'
+    })
 })
 // Отправляем данные об аватарке на сервер
 const avatarPopupLogic = new PopupWithForm('.popup_type_avatar-edit', (evt, values) => {
@@ -132,51 +147,53 @@ profileAvatar.addEventListener('click', avatarPopupLogic.open.bind(avatarPopupLo
 
 //Карточки
 
-const cardsArray = new Section({
-  renderer: (data) => {
-    const card = createNewCard(data);
-    const cardElement = card.createPlace();
-    cardsArray.addItem(cardElement);
-  }
-}, placesSelector);
+const cardsArray = new Section(
+  {
+    renderer: (data) => {
+      const card = createNewCard(data)
+      const cardElement = card.createPlace()
+      cardsArray.addItem(cardElement)
+    },
+  },
+  placesSelector
+)
 
 const createNewCard = (data) => {
-  const card = new Card(data, placeSettings, cardSelector, userData, openPopup, checkLike, deleteCard )
+  const card = new Card(data, placeSettings, cardSelector, userData, openPopup, checkLike, deleteCard)
   return card
 }
 
-const popupImage = new PopupWithImage(popupImageSelector);
-function openPopup(name, link,src) {
-  popupImage.open(name, link,src)
+const cardImagePopup = new PopupWithImage(popupImageSelector)
+cardImagePopup.setEventListeners()
+
+function openPopup(name, link, src) {
+  cardImagePopup.open(name, link, src)
 }
 
-function checkLike (methodName, cardId, card) {
-  api.loadCardLikeOnServer(methodName, cardId) 
-  .then((data) => {
-    card.setLikesCount(data);
-  })
-  .catch((err) => {
-    console.log(err);
-  })
+function checkLike(methodName, cardId, card) {
+  api
+    .loadCardLikeOnServer(methodName, cardId)
+    .then((data) => {
+      card.setLikesCount(data)
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }
 
-function deleteCard (id, element) {
+function deleteCard(id, element) {
   api.deleteServerCard(id).then(() => {
-    element.remove();   
-  }); 
+    element.remove()
+  })
 }
 
-api.getCardsFromServer()
+api
+  .getCardsFromServer()
   .then((res) => {
     cardsArray.renderCards(res)
   })
   .catch((err) => console.log(err))
 
-
-
-
-
- 
 // Запрос карточек и данных с сервера
 // Promise.all([getProfileFromServer(), getCardsFromServer()])
 //   .then(([profileData, cardsArray]) => {
