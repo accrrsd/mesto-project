@@ -6,15 +6,16 @@
 // let myId
 
 export default class Card {
-  constructor(data, cardSelector, openPopup, checkLike, deleteCard) {
+  constructor(data, placeSettings, cardSelector, userData, openPopup, checkLike, deleteCard) {
     this._cardSelector = cardSelector;
     this._data = data;
     this._name = data.name;
     this._url = data.link;
-    this._likes = data.likes;
+    this._userData = userData;
     this._openPopup = openPopup;
     this._checkLike = checkLike;
     this._deleteCard = deleteCard;
+    this._placeSettings = placeSettings;
   }
 
   _getCardElement() {
@@ -28,15 +29,35 @@ export default class Card {
 
   createPlace() {
     this._element = this._getCardElement();
-    this._element.querySelector('.place__title').textContent = this._name;
-    this._element.querySelector('.place__image').src = this._url;
-    this._element.querySelector('.place__image').alt = this._name;
-    this._element.querySelector('.place__like-count').textContent = this._likes;
+   
+    // this._element.querySelector('.place__image').src = this._url;
+    // this._element.querySelector('.place__image').alt = this._name;
+    // this._element.querySelector('.place__like-count').textContent = this._likes;
 
+    this._placeTitle = this._element.querySelector(this._placeSettings.placeTitle);
+    this._placeImage = this._element.querySelector(this._placeSettings.placeImage);
+    this._placeLikeCount = this._element.querySelector(this._placeSettings.placeLikeCount);
+    this._placeLike = this._element.querySelector(this._placeSettings.placeLike);
+    this._placeTrash = this._element.querySelector(this._placeSettings.placeTrash);
+    this._placeTitle.textContent = this._name;
+    this._placeImage.src = this._url;
+    this._placeImage.alt = this._name;
+    this._placeTrash = this._element.querySelector(this._placeSettings.placeTrash);
+
+    this.setLikesCount(this._data);
     this._setEventListeners();
 
     return this._element;
 
+  }
+
+  setLikesCount(data) {
+    this._likes = data.likes.length;
+    this._placeLikeCount.textContent = data.likes.length;
+
+    if (data.likes.some((currentLike) => currentLike._id == this._userData._id) == true) {
+        this._placeLike.classList.add('place__like_active');
+    }
   }
 
   _deleteCard() {
@@ -44,32 +65,34 @@ export default class Card {
   }
 
   _setEventListeners() {
-    // ------
-    this._image = this._element.querySelector('.place__image');
-    this._image.addEventListener('click', () => {
+    
+    this._placeImage.addEventListener('click', () => {
       this._openPopup(this._url, this._name);
     })
 
-    // -------
-    this._likeCount = this._element.querySelector('.place__like-count')
-    this._like = this._element.querySelector('.place__like'); 
-    this._like.addEventListener('click', () => {
-      this._like.classList.toggle('place__like_active');
+    this._placeLike.addEventListener('click', () => {
+      
 
-      if (this._like.classList.contains('place__like_active')) {
-        this._checkLike('DELETE', this._data._cardId)
+      if (this._placeLike.classList.contains('place__like_active')) {
+        this._checkLike('DELETE', this._data._id, this)
       }
       else {
-        this._checkLike('PUT', this._data._cardId)
+        this._checkLike('PUT', this._data._id, this)
       }
+
+      this._placeLike.classList.toggle('place__like_active');
+
+      this.setLikesCount(this._data);
       
     })
 
-    //---------
-    this._trash = this._element.querySelector('.place__trash');
-    this._trash.addEventListener('click', () => {
-      this._deleteCard(this._data._cardId);
+    this._placeTrash.addEventListener('click', () => {
+      this._deleteCard(this._data._id);
     })
+
+    if (this._data._ownerId == this._userData._id) {
+      this._placeTrash.style.display = 'block';
+    }
 
     
 

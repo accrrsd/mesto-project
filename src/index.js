@@ -30,6 +30,14 @@ const apiOptions = {
 
 const api = new Api(apiOptions)
 
+const placeSettings = {
+  placeTitle: '.place__title',
+  placeImage: '.place__image',
+  placeLikeCount: '.place__like-count',
+  placeLike: '.place__like',
+  placeTrash: '.place__trash',
+}
+
 const validationSettings = {
   inputSelector: '.form__field',
   submitButtonSelector: '.form__submit',
@@ -133,7 +141,7 @@ const cardsArray = new Section({
 }, placesSelector);
 
 const createNewCard = (data) => {
-  const card = new Card(data, cardSelector, openPopup, checkLike, deleteCard )
+  const card = new Card(data, placeSettings, cardSelector, userData, openPopup, checkLike, deleteCard )
   return card
 }
 
@@ -142,8 +150,14 @@ function openPopup(name, link,src) {
   popupImage.open(name, link,src)
 }
 
-function checkLike (methodName, cardId) {
-  api.loadCardLikeOnServer(methodName, cardId);
+function checkLike (methodName, cardId, card) {
+  api.loadCardLikeOnServer(methodName, cardId) 
+  .then((data) => {
+    card.setLikesCount(data);
+  })
+  .catch((err) => {
+    console.log(err);
+  })
 }
 
 function deleteCard (id, element) {
