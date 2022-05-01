@@ -90,9 +90,9 @@ export default class Card {
       this._deleteCard(this._data._id);
     })
 
-    if (this._data._ownerId == this._userData._id) {
+    // if (this._data._ownerId == this._userData._id) {
       this._placeTrash.style.display = 'block';
-    }
+    // }
 
     
 
