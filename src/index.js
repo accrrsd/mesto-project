@@ -5,6 +5,9 @@ import PopupWithForm from './components/PopupWithForm'
 import UserInfo from './components/UserInfo'
 import FormValidator from './components/FormValidator'
 import Api from './components/api'
+import Card from './components/cards'
+import Section from './components/Section'
+import PopupWithImage from './components/PopupWithImage'
 
 // Формы попапов
 import { popupProfileForm, popupAvatarForm, popupAddCardForm } from './components/variables.js'
@@ -14,6 +17,10 @@ import { popupProfileName, popupProfileSubname } from './components/variables.js
 import { profileEditButton, profileAvatar, addCardButton } from './components/variables.js'
 // Данные об аккаунте
 import { token, baseUrlAddress } from './components/variables.js'
+
+//Селекторы
+const cardSelector = '#place-template';
+const popupImageSelector = '.popup_type_image';
 
 const apiOptions = {
   baseUrl: baseUrlAddress,
@@ -114,6 +121,46 @@ profileEditButton.addEventListener('click', () => {
 addCardButton.addEventListener('click', cardPopupLogic.open.bind(cardPopupLogic))
 profileAvatar.addEventListener('click', avatarPopupLogic.open.bind(avatarPopupLogic))
 
+//Карточки
+
+const cardsArray = new Section({
+  renderer: (data) => {
+    const card = createNewCard(data);
+    const cardElement = card.createPlace();
+    cardsArray.addItem(cardElement);
+  }
+}, cardSelector);
+
+const createNewCard = (data) => {
+  const Card = new Card(data, cardSelector, openPopup, checkLike, deleteCard )
+}
+
+const popupImage = new PopupWithImage(popupImageSelector);
+function openPopup(name, link,src) {
+  popupImage.open(name, link,src)
+}
+
+function checkLike (methodName, cardId) {
+  api.loadCardLikeOnServer(methodName, cardId);
+}
+
+function deleteCard (id, element) {
+  api.deleteCard(id).then(() => {
+    element.remove();   
+  }); 
+}
+
+api.getCardsFromServer()
+  .then((res) => {
+    cardsArray.renderCards(res)
+  })
+  .catch((err) => console.log(err))
+
+
+
+
+
+ 
 // Запрос карточек и данных с сервера
 // Promise.all([getProfileFromServer(), getCardsFromServer()])
 //   .then(([profileData, cardsArray]) => {
