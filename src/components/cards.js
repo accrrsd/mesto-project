@@ -30,9 +30,9 @@ export default class Card {
   createPlace() {
     this._element = this._getCardElement();
     this._element.querySelector('.place__title').textContent = this._name;
-    this._element.querySelector('place__image').src = this._url;
-    this._element.querySelector('place__image').alt = this._name;
-    this._element.querySelector('place__like-count').textContent = this._likes;
+    this._element.querySelector('.place__image').src = this._url;
+    this._element.querySelector('.place__image').alt = this._name;
+    this._element.querySelector('.place__like-count').textContent = this._likes;
 
     this._setEventListeners();
 

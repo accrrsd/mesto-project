@@ -9,7 +9,7 @@ export default class Section {
     }
 
     addItem(card) {
-        this._container.append(domElement);
+        this._container.append(card);
     }
 
 }

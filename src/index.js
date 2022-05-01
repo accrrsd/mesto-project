@@ -132,7 +132,8 @@ const cardsArray = new Section({
 }, cardSelector);
 
 const createNewCard = (data) => {
-  const Card = new Card(data, cardSelector, openPopup, checkLike, deleteCard )
+  const card = new Card(data, cardSelector, openPopup, checkLike, deleteCard )
+  return card
 }
 
 const popupImage = new PopupWithImage(popupImageSelector);
