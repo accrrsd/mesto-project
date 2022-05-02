@@ -28,10 +28,18 @@ export const popupAddCardForm = popupAddCard.querySelector('form[name="card-set"
 // Картинка
 export const popupImageTitle = popupImage.querySelector('.popup__title')
 export const popupImagePicture = popupImage.querySelector('.popup__picture')
+export const popupImageSelector = '.popup_type_image'
 
 // Аватарка
 export const popupAvatarUrl = popupAvatar.querySelector('input[name="avatar"]')
 export const popupAvatarForm = popupAvatar.querySelector('form[name="avatar-set"]')
+
+// Подтверждение
+export const popupSubmitSelector = '.popup_type_submit'
+
+// Селекторы
+export const cardSelector = '#place-template'
+export const placesSelector = '.places'
 
 // Данные пользователя
 export const cohortId = 'plus-cohort-8'

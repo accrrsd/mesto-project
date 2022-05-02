@@ -1,13 +1,14 @@
 import './styles/index.css'
 
 // Импорты классов
-import PopupWithForm from './components/PopupWithForm'
-import UserInfo from './components/UserInfo'
-import FormValidator from './components/FormValidator'
 import Api from './components/api'
-import Card from './components/cards'
+import UserInfo from './components/UserInfo'
 import Section from './components/Section'
+import Card from './components/cards'
+import FormValidator from './components/FormValidator'
+import PopupWithForm from './components/PopupWithForm'
 import PopupWithImage from './components/PopupWithImage'
+import PopupWithSubmit from './components/PopupWithSubmit'
 
 // Формы попапов
 import { popupProfileForm, popupAvatarForm, popupAddCardForm } from './components/variables.js'
@@ -17,12 +18,10 @@ import { popupProfileName, popupProfileSubname } from './components/variables.js
 import { profileEditButton, profileAvatar, addCardButton } from './components/variables.js'
 // Данные об аккаунте
 import { token, baseUrlAddress } from './components/variables.js'
-
 //Селекторы
-const cardSelector = '#place-template'
-const popupImageSelector = '.popup_type_image'
-const placesSelector = '.places'
+import { cardSelector, popupImageSelector, placesSelector, popupSubmitSelector } from './components/variables.js'
 
+// Настройки
 const apiOptions = {
   baseUrl: baseUrlAddress,
   token: token,
@@ -55,6 +54,7 @@ profileValidator.enableValidation()
 cardValidator.enableValidation()
 avatarValidator.enableValidation()
 
+// Создание логики данных пользователя
 const userInfoLogic = new UserInfo('.profile__title', '.profile__subtitle', '.profile__avatar')
 
 // Получаем данные о профиле с сервера
@@ -95,7 +95,7 @@ const profilePopupLogic = new PopupWithForm('.popup_type_profile', (evt, values)
       submitBtn.textContent = 'Сохранить'
     })
 })
-
+// Логика попапа создания карты
 const cardPopupLogic = new PopupWithForm('.popup_type_add-card', (evt, values) => {
   const submitBtn = evt.submitter
   submitBtn.textContent = 'Сохранение...'
@@ -105,8 +105,8 @@ const cardPopupLogic = new PopupWithForm('.popup_type_add-card', (evt, values) =
       cardPopupLogic.close()
       cardValidator.toggleButtonBlock(submitBtn, true)
 
-      // !! Правильный метод добавления карт в список
-      // cardsArray.renderCards(data)
+      // !! Какой метод нужен для добавления карт в список??
+      // В Data - хранятся все необходимые данные о карте
     })
     .catch((err) => {
       console.log(err)
@@ -131,10 +131,17 @@ const avatarPopupLogic = new PopupWithForm('.popup_type_avatar-edit', (evt, valu
     })
 })
 
+// Логика попапа подтверждения удаления карты
+const popupSubmitDeleteCard = new PopupWithSubmit(popupSubmitSelector)
+// Логика попапа открытия картинки
+const cardImagePopup = new PopupWithImage(popupImageSelector)
+
 // Проставляем слушатели закрытия
 profilePopupLogic.setEventListeners()
 avatarPopupLogic.setEventListeners()
 cardPopupLogic.setEventListeners()
+popupSubmitDeleteCard.setEventListeners()
+cardImagePopup.setEventListeners()
 
 // Проставляем слушатели открытия
 profileEditButton.addEventListener('click', () => {
@@ -146,7 +153,6 @@ addCardButton.addEventListener('click', cardPopupLogic.open.bind(cardPopupLogic)
 profileAvatar.addEventListener('click', avatarPopupLogic.open.bind(avatarPopupLogic))
 
 //Карточки
-
 const cardsArray = new Section(
   {
     renderer: (data) => {
@@ -159,12 +165,9 @@ const cardsArray = new Section(
 )
 
 const createNewCard = (data) => {
-  const card = new Card(data, placeSettings, cardSelector, userData, openPopup, checkLike, deleteCard)
+  const card = new Card(data, placeSettings, cardSelector, userData, openPopup, checkLike, deleteCard, popupSubmitDeleteCard)
   return card
 }
-
-const cardImagePopup = new PopupWithImage(popupImageSelector)
-cardImagePopup.setEventListeners()
 
 function openPopup(name, link, src) {
   cardImagePopup.open(name, link, src)
@@ -182,8 +185,8 @@ function checkLike(methodName, cardId, card) {
 }
 
 function deleteCard(id, element) {
-  api.deleteServerCard(id).then(() => {
-    element.remove();
+  return api.deleteServerCard(id).then(() => {
+    element.remove()
   })
 }
 
@@ -193,18 +196,3 @@ api
     cardsArray.renderCards(res)
   })
   .catch((err) => console.log(err))
-
-// Запрос карточек и данных с сервера
-// Promise.all([getProfileFromServer(), getCardsFromServer()])
-//   .then(([profileData, cardsArray]) => {
-//     // Установка данных пользователя
-//     profileTitle.textContent = profileData.name
-//     profileSubtitle.textContent = profileData.about
-//     profileAvatar.src = profileData.avatar
-//     getId(profileData._id)
-//     // Отрисовка карт
-//     renderPlaces(cardsArray)
-//   })
-//   .catch((err) => {
-//     console.log(err)
-//   })
