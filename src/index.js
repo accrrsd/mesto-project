@@ -183,7 +183,7 @@ function checkLike(methodName, cardId, card) {
 
 function deleteCard(id, element) {
   api.deleteServerCard(id).then(() => {
-    element.remove()
+    element.remove();
   })
 }
 

@@ -19,7 +19,7 @@ export default class Card {
   }
 
   _getCardElement() {
-    const cardElement = document.querySelector(this._cardSelector).content.cloneNode(true);
+    const cardElement = document.querySelector(this._cardSelector).content.querySelector('.place').cloneNode(true);
     return cardElement;
   }
 
@@ -53,15 +53,11 @@ export default class Card {
 
   setLikesCount(data) {
     this._likes = data.likes.length;
-    this._placeLikeCount.textContent = data.likes.length;
+    this._placeLikeCount.textContent = data.likes.length > 0 ? data.likes.length : ''; 
 
     if (data.likes.some((currentLike) => currentLike._id == this._userData._id) == true) {
         this._placeLike.classList.add('place__like_active');
     }
-  }
-
-  _deleteCard() {
-
   }
 
   _setEventListeners() {
@@ -87,12 +83,12 @@ export default class Card {
     })
 
     this._placeTrash.addEventListener('click', () => {
-      this._deleteCard(this._data._id);
+      this._deleteCard(this._data._id, this._element);
     })
 
-    // if (this._data._ownerId == this._userData._id) {
+    if (this._data.owner._id == this._userData._id) {
       this._placeTrash.style.display = 'block';
-    // }
+    }
 
     
 
