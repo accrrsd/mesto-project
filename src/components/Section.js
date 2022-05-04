@@ -8,8 +8,13 @@ export default class Section {
         cards.forEach(card => this._renderer(card))
     }
 
-    addItem(card) {
-        this._container.append(card);
+    addItem(card, direction = 'append') {
+        if (direction == 'append') {
+            this._container.append(card);
+        }
+        else {
+            this._container.prepend(card);    
+        }
     }
 
 }
