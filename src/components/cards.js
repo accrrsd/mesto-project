@@ -51,6 +51,9 @@ export default class Card {
     if (data.likes.some((currentLike) => currentLike._id == this._userData._id) == true) {
       this._placeLike.classList.add('place__like_active')
     }
+    else {
+      this._placeLike.classList.remove('place__like_active')  
+    }
   }
 
   _setEventListeners() {
