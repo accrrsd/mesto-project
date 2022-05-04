@@ -1,6 +1,5 @@
 export default class Popup {
   constructor(selector) {
-    // this._selector = String(selector)
     this._element = this._getElement(selector)
   }
 
