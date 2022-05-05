@@ -1,25 +1,25 @@
 import './styles/index.css'
 
 // Импорты классов
-import Api from './components/api'
+import Api from './components/Api'
 import UserInfo from './components/UserInfo'
 import Section from './components/Section'
-import Card from './components/cards'
+import Card from './components/Cards'
 import FormValidator from './components/FormValidator'
 import PopupWithForm from './components/PopupWithForm'
 import PopupWithImage from './components/PopupWithImage'
 import PopupWithSubmit from './components/PopupWithSubmit'
 
 // Формы попапов
-import { popupProfileForm, popupAvatarForm, popupAddCardForm } from './components/variables.js'
+import { popupProfileForm, popupAvatarForm, popupAddCardForm } from './components/utils/constants'
 // Данные попапаПрофиля
-import { popupProfileName, popupProfileSubname } from './components/variables.js'
+import { popupProfileName, popupProfileSubname } from './components/utils/constants'
 // ЭвентЛистенеры
-import { profileEditButton, profileAvatar, addCardButton } from './components/variables.js'
+import { profileEditButton, profileAvatar, addCardButton } from './components/utils/constants'
 // Данные об аккаунте
-import { token, baseUrlAddress } from './components/variables.js'
+import { token, baseUrlAddress } from './components/utils/constants'
 //Селекторы
-import { cardSelector, popupImageSelector, placesSelector, popupSubmitSelector } from './components/variables.js'
+import { cardSelector, popupImageSelector, placesSelector, popupSubmitSelector } from './components/utils/constants'
 
 // Настройки
 const apiOptions = {
