@@ -6,21 +6,23 @@ export default class FormValidator {
     this._inactiveButtonClass = inactiveButtonClass
     this._inputErrorClass = inputErrorClass
     this._errorClass = errorClass
+    this._inputs = Array.from(formElement.querySelectorAll(inputSelector))
+    this._submitBtn = formElement.querySelector(submitButtonSelector)
   }
   enableValidation() {
-    const inputs = Array.from(this._form.querySelectorAll(this._inputSelector))
-    const submitBtn = this._form.querySelector(this._submitButtonSelector)
+   // const inputs = Array.from(this._form.querySelectorAll(this._inputSelector))
+    //const submitBtn = this._form.querySelector(this._submitButtonSelector)
     this.toggleButtonBlock(
-      submitBtn,
-      inputs.some((input) => !input.validity.valid)
+      this._submitBtn,
+      this._inputs.some((input) => !input.validity.valid)
     )
     // Вешаем валидацию
-    inputs.forEach((input) => {
+   this._inputs.forEach((input) => {
       input.addEventListener('input', () => {
         this._checkValid(input)
         this.toggleButtonBlock(
-          submitBtn,
-          inputs.some((input) => !input.validity.valid)
+          this._submitBtn,
+          this._inputs.some((input) => !input.validity.valid)
         )
       })
     })

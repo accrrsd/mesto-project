@@ -16,34 +16,14 @@ import { popupProfileForm, popupAvatarForm, popupAddCardForm } from './component
 import { popupProfileName, popupProfileSubname } from './components/utils/constants'
 // ЭвентЛистенеры
 import { profileEditButton, profileAvatar, addCardButton } from './components/utils/constants'
-// Данные об аккаунте
-import { token, baseUrlAddress } from './components/utils/constants'
+
 //Селекторы
 import { cardSelector, popupImageSelector, placesSelector, popupSubmitSelector } from './components/utils/constants'
 
 // Настройки
-const apiOptions = {
-  baseUrl: baseUrlAddress,
-  token: token,
-}
+import { apiOptions, placeSettings,validationSettings } from './components/utils/constants'
 
 const api = new Api(apiOptions)
-
-const placeSettings = {
-  placeTitle: '.place__title',
-  placeImage: '.place__image',
-  placeLikeCount: '.place__like-count',
-  placeLike: '.place__like',
-  placeTrash: '.place__trash',
-}
-
-const validationSettings = {
-  inputSelector: '.form__field',
-  submitButtonSelector: '.form__submit',
-  inactiveButtonClass: 'form__submit_disabled',
-  inputErrorClass: 'form__field_invalid',
-  errorClass: 'form__field-error_active',
-}
 
 // Создание и активация валидаторов
 const profileValidator = new FormValidator(validationSettings, popupProfileForm)
@@ -193,7 +173,11 @@ function checkLike(methodName, cardId, card) {
 }
 
 function deleteCard(id, element) {
-  return api.deleteServerCard(id).then(() => {
+  api.deleteServerCard(id)
+  .then(() => {
     element.remove()
+  })
+  .catch((err) => {
+    console.log(err)
   })
 }

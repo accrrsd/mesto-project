@@ -24,10 +24,6 @@ export default class Card {
   createPlace() {
     this._element = this._getCardElement()
 
-    // this._element.querySelector('.place__image').src = this._url;
-    // this._element.querySelector('.place__image').alt = this._name;
-    // this._element.querySelector('.place__like-count').textContent = this._likes;
-
     this._placeTitle = this._element.querySelector(this._placeSettings.placeTitle)
     this._placeImage = this._element.querySelector(this._placeSettings.placeImage)
     this._placeLikeCount = this._element.querySelector(this._placeSettings.placeLikeCount)
@@ -67,27 +63,25 @@ export default class Card {
       } else {
         this._checkLike('PUT', this._data._id, this)
       }
-
-      this._placeLike.classList.toggle('place__like_active')
-
-      this.setLikesCount(this._data)
     })
 
     this._placeTrash.addEventListener('click', () => {
-      this._submitDelete.setCallback((e) => {
-        e.preventDefault()
-        const submitBtn = e.submitter
-        submitBtn.textContent = 'Удаление...'
-        this._deleteCard(this._data._id, this._element)
-          .then(() => this._submitDelete.close())
-          .catch((err) => console.log(err))
-          .finally(() => {
-            submitBtn.textContent = 'Удалить'
-            this._submitDelete.removeSubmitListener()
-          })
-      })
-      this._submitDelete.setSubmitListener()
-      this._submitDelete.open()
+
+      this._deleteCard(this._data._id, this._element)
+      // this._submitDelete.setCallback((e) => {
+      //   e.preventDefault()
+      //   // const submitBtn = e.submitter
+      //   // submitBtn.textContent = 'Удаление...'
+      //   this._deleteCard(this._data._id, this._element)
+      //     .then(() => this._submitDelete.close())
+      //     .catch((err) => console.log(err))
+      //     .finally(() => {
+      //       // submitBtn.textContent = 'Удалить'
+      //       this._submitDelete.removeSubmitListener()
+      //     })
+      // })
+      // this._submitDelete.setSubmitListener()
+      // this._submitDelete.open()
     })
 
     if (this._data.owner._id == this._userData._id) {
