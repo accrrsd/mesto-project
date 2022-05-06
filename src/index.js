@@ -10,40 +10,39 @@ import PopupWithForm from './components/PopupWithForm'
 import PopupWithImage from './components/PopupWithImage'
 import PopupWithSubmit from './components/PopupWithSubmit'
 
-// Формы попапов
-import { popupProfileForm, popupAvatarForm, popupAddCardForm } from './components/utils/constants'
 // Данные попапаПрофиля
 import { popupProfileName, popupProfileSubname } from './components/utils/constants'
 // ЭвентЛистенеры
 import { profileEditButton, profileAvatar, addCardButton } from './components/utils/constants'
-
 //Селекторы
 import { cardSelector, popupImageSelector, placesSelector, popupSubmitSelector } from './components/utils/constants'
-
 // Настройки
-import { apiOptions, placeSettings,validationSettings } from './components/utils/constants'
+import { apiOptions, placeSettings, validationSettings } from './components/utils/constants'
 
 const api = new Api(apiOptions)
+const formValidators = {}
 
 // Создание и активация валидаторов
-const profileValidator = new FormValidator(validationSettings, popupProfileForm)
-const cardValidator = new FormValidator(validationSettings, popupAddCardForm)
-const avatarValidator = new FormValidator(validationSettings, popupAvatarForm)
-
-profileValidator.enableValidation()
-cardValidator.enableValidation()
-avatarValidator.enableValidation()
+function enableValidation(config) {
+  const formList = Array.from(document.querySelectorAll(config.formSelector))
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(config, formElement)
+    const formName = formElement.parentNode.getAttribute('name')
+    formValidators[formName] = validator
+    validator.enableValidation()
+  })
+}
+enableValidation(validationSettings)
 
 // Создание логики данных пользователя
 const userInfoLogic = new UserInfo('.profile__title', '.profile__subtitle', '.profile__avatar')
 
 // Получаем данные с сервера
 let userData
-userInfoLogic
-  .getUserInfo(api)
+api
+  .getProfileFromServer()
   .then((data) => {
-    userInfoLogic.setUserInfo(data)
-    userInfoLogic.setUserAvatar(data)
+    userInfoLogic.getUserInfo(data)
     userData = data
 
     api
@@ -66,32 +65,21 @@ userInfoLogic
   })
 
 // Отправляем данные о профиле на сервер
-const profilePopupLogic = new PopupWithForm('.popup_type_profile', (evt, values) => {
-  const submitBtn = evt.submitter
-  submitBtn.textContent = 'Сохранение...'
-  userInfoLogic
-    .setUserInfo(values, api)
+const profilePopupLogic = new PopupWithForm('.popup_type_profile', (values) => {
+  return api
+    .loadProfileOnServer(values)
     .then((data) => {
-      profilePopupLogic.close()
+      userInfoLogic.getUserInfo(data)
       sessionStorage.setItem('popupProfileName', data.name)
       sessionStorage.setItem('popupProfileAbout', data.about)
-      profileValidator.toggleButtonBlock(submitBtn, true)
     })
     .catch((err) => console.log(err))
-    .finally(() => {
-      submitBtn.textContent = 'Сохранить'
-    })
 })
 // Логика попапа создания карты
-const cardPopupLogic = new PopupWithForm('.popup_type_add-card', (evt, values) => {
-  const submitBtn = evt.submitter
-  submitBtn.textContent = 'Сохранение...'
-  api
+const cardPopupLogic = new PopupWithForm('.popup_type_add-card', (values) => {
+  return api
     .postCardOnServer(values)
     .then((data) => {
-      cardPopupLogic.close()
-      cardValidator.toggleButtonBlock(submitBtn, true)
-
       const card = createNewCard(data)
       const cardElement = card.createPlace()
       cardsArray.addItem(cardElement, 'prepend')
@@ -99,28 +87,20 @@ const cardPopupLogic = new PopupWithForm('.popup_type_add-card', (evt, values) =
     .catch((err) => {
       console.log(err)
     })
-    .finally(() => {
-      submitBtn.textContent = 'Сохранить'
-    })
 })
 // Отправляем данные об аватарке на сервер
-const avatarPopupLogic = new PopupWithForm('.popup_type_avatar-edit', (evt, values) => {
-  const submitBtn = evt.submitter
-  submitBtn.textContent = 'Сохранение...'
-  userInfoLogic
-    .setUserAvatar(values, api)
-    .then(() => {
-      avatarPopupLogic.close()
-      avatarValidator.toggleButtonBlock(submitBtn, true)
+const avatarPopupLogic = new PopupWithForm('.popup_type_avatar-edit', (values) => {
+  return api
+    .loadAvatarOnServer(values)
+    .then((data) => {
+      userInfoLogic.getUserInfo(data)
     })
     .catch((err) => console.log(err))
-    .finally(() => {
-      submitBtn.textContent = 'Сохранить'
-    })
 })
 
 // Логика попапа подтверждения удаления карты
 const popupSubmitDeleteCard = new PopupWithSubmit(popupSubmitSelector)
+
 // Логика попапа открытия картинки
 const cardImagePopup = new PopupWithImage(popupImageSelector)
 
@@ -128,17 +108,24 @@ const cardImagePopup = new PopupWithImage(popupImageSelector)
 profilePopupLogic.setEventListeners()
 avatarPopupLogic.setEventListeners()
 cardPopupLogic.setEventListeners()
-popupSubmitDeleteCard.setEventListeners()
 cardImagePopup.setEventListeners()
+popupSubmitDeleteCard.setEventListeners()
 
 // Проставляем слушатели открытия
 profileEditButton.addEventListener('click', () => {
+  formValidators['profile-set'].resetValidationState()
   profilePopupLogic.open()
   popupProfileName.value = sessionStorage.getItem('popupProfileName')
   popupProfileSubname.value = sessionStorage.getItem('popupProfileAbout')
 })
-addCardButton.addEventListener('click', cardPopupLogic.open.bind(cardPopupLogic))
-profileAvatar.addEventListener('click', avatarPopupLogic.open.bind(avatarPopupLogic))
+addCardButton.addEventListener('click', () => {
+  formValidators['card-set'].resetValidationState()
+  cardPopupLogic.open()
+})
+profileAvatar.addEventListener('click', () => {
+  formValidators['avatar-set'].resetValidationState()
+  avatarPopupLogic.open()
+})
 
 //Карточки
 const cardsArray = new Section(
@@ -153,8 +140,27 @@ const cardsArray = new Section(
 )
 
 const createNewCard = (data) => {
-  const card = new Card(data, placeSettings, cardSelector, userData, openPopup, checkLike, deleteCard, popupSubmitDeleteCard)
+  const card = new Card(data, placeSettings, cardSelector, userData, openPopup, checkLike, deleteCard, popupSubmitDeleteCard, deleteCardCallback)
   return card
+}
+
+const deleteCardCallback = (e) => {
+  e.preventDefault()
+  const submitBtn = e.submitter
+  const initText = submitBtn.textContent
+  submitBtn.textContent = 'Удаление...'
+  return deleteCard(popupSubmitDeleteCard.cardId, popupSubmitDeleteCard.cardElem)
+    .then(() => {
+      popupSubmitDeleteCard.close()
+    })
+    .catch((err) => {
+      console.log(err)
+    })
+    .finally(() => {
+      submitBtn.textContent = initText
+      delete popupSubmitDeleteCard.cardId
+      delete popupSubmitDeleteCard.cardElem
+    })
 }
 
 function openPopup(name, link, src) {
@@ -173,11 +179,12 @@ function checkLike(methodName, cardId, card) {
 }
 
 function deleteCard(id, element) {
-  api.deleteServerCard(id)
-  .then(() => {
-    element.remove()
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+  return api
+    .deleteServerCard(id)
+    .then(() => {
+      element.remove()
+    })
+    .catch((err) => {
+      console.log(err)
+    })
 }

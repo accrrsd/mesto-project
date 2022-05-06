@@ -6,41 +6,33 @@ export default class FormValidator {
     this._inactiveButtonClass = inactiveButtonClass
     this._inputErrorClass = inputErrorClass
     this._errorClass = errorClass
-    this._inputs = Array.from(formElement.querySelectorAll(inputSelector))
+    this._inputList = Array.from(formElement.querySelectorAll(inputSelector))
     this._submitBtn = formElement.querySelector(submitButtonSelector)
   }
   enableValidation() {
-   // const inputs = Array.from(this._form.querySelectorAll(this._inputSelector))
-    //const submitBtn = this._form.querySelector(this._submitButtonSelector)
-    this.toggleButtonBlock(
-      this._submitBtn,
-      this._inputs.some((input) => !input.validity.valid)
-    )
+    this._toggleButtonBlock(this._inputList.some((input) => !input.validity.valid))
     // Вешаем валидацию
-   this._inputs.forEach((input) => {
+    this._inputList.forEach((input) => {
       input.addEventListener('input', () => {
         this._checkValid(input)
-        this.toggleButtonBlock(
-          this._submitBtn,
-          this._inputs.some((input) => !input.validity.valid)
-        )
+        this._toggleButtonBlock(this._inputList.some((input) => !input.validity.valid))
       })
     })
+  }
+  _toggleButtonBlock(blockState) {
+    if (blockState) {
+      this._submitBtn.classList.add(this._inactiveButtonClass)
+      this._submitBtn.disabled = true
+    } else {
+      this._submitBtn.classList.remove(this._inactiveButtonClass)
+      this._submitBtn.disabled = false
+    }
   }
   _checkValid(input) {
     if (!input.validity.valid) {
       this._showValidationError(input, input.validationMessage)
     } else {
       this._hideValidationError(input)
-    }
-  }
-  toggleButtonBlock(elem, invalid) {
-    if (invalid) {
-      elem.classList.add(this._inactiveButtonClass)
-      elem.disabled = true
-    } else {
-      elem.classList.remove(this._inactiveButtonClass)
-      elem.disabled = false
     }
   }
   _showValidationError(input, errorMassage) {
@@ -54,5 +46,11 @@ export default class FormValidator {
     const errorSpan = this._form.querySelector(`.${input.id}-error`)
     errorSpan.classList.remove(this._errorClass)
     errorSpan.textContent = ''
+  }
+  resetValidationState() {
+    this._toggleButtonBlock(true)
+    this._inputList.forEach((input) => {
+      this._hideValidationError(input)
+    })
   }
 }

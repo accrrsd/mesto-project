@@ -48,22 +48,23 @@ export const serverAddress = 'https://mesto.nomoreparties.co'
 export const baseUrlAddress = `${serverAddress}/v1/${cohortId}/`
 
 export const apiOptions = {
-    baseUrl: baseUrlAddress,
-    token: token,
-  }
+  baseUrl: baseUrlAddress,
+  token: token,
+}
 
- export const validationSettings = {
-    inputSelector: '.form__field',
-    submitButtonSelector: '.form__submit',
-    inactiveButtonClass: 'form__submit_disabled',
-    inputErrorClass: 'form__field_invalid',
-    errorClass: 'form__field-error_active',
-  }
+export const validationSettings = {
+  formSelector: '.form-fieldset',
+  inputSelector: '.form__field',
+  submitButtonSelector: '.form__submit',
+  inactiveButtonClass: 'form__submit_disabled',
+  inputErrorClass: 'form__field_invalid',
+  errorClass: 'form__field-error_active',
+}
 
-  export const placeSettings = {
-    placeTitle: '.place__title',
-    placeImage: '.place__image',
-    placeLikeCount: '.place__like-count',
-    placeLike: '.place__like',
-    placeTrash: '.place__trash',
-  }
+export const placeSettings = {
+  placeTitle: '.place__title',
+  placeImage: '.place__image',
+  placeLikeCount: '.place__like-count',
+  placeLike: '.place__like',
+  placeTrash: '.place__trash',
+}

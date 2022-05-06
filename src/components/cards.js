@@ -1,5 +1,5 @@
 export default class Card {
-  constructor(data, placeSettings, cardSelector, userData, openPopup, checkLike, deleteCard, submitDelete) {
+  constructor(data, placeSettings, cardSelector, userData, openPopup, checkLike, deleteCard, submitDelete, callback) {
     this._cardSelector = cardSelector
     this._data = data
     this._name = data.name
@@ -10,6 +10,7 @@ export default class Card {
     this._deleteCard = deleteCard
     this._placeSettings = placeSettings
     this._submitDelete = submitDelete
+    this._callback = callback
   }
 
   _getCardElement() {
@@ -46,9 +47,8 @@ export default class Card {
 
     if (data.likes.some((currentLike) => currentLike._id == this._userData._id) == true) {
       this._placeLike.classList.add('place__like_active')
-    }
-    else {
-      this._placeLike.classList.remove('place__like_active')  
+    } else {
+      this._placeLike.classList.remove('place__like_active')
     }
   }
 
@@ -66,22 +66,14 @@ export default class Card {
     })
 
     this._placeTrash.addEventListener('click', () => {
+      // Очищаем от прошлых значений
+      this._submitDelete.removeSubmitListener()
 
-      this._deleteCard(this._data._id, this._element)
-      // this._submitDelete.setCallback((e) => {
-      //   e.preventDefault()
-      //   // const submitBtn = e.submitter
-      //   // submitBtn.textContent = 'Удаление...'
-      //   this._deleteCard(this._data._id, this._element)
-      //     .then(() => this._submitDelete.close())
-      //     .catch((err) => console.log(err))
-      //     .finally(() => {
-      //       // submitBtn.textContent = 'Удалить'
-      //       this._submitDelete.removeSubmitListener()
-      //     })
-      // })
-      // this._submitDelete.setSubmitListener()
-      // this._submitDelete.open()
+      this._submitDelete.cardId = this._data._id
+      this._submitDelete.cardElem = this._element
+      this._submitDelete.setCallback(this._callback)
+      this._submitDelete.setSubmitListener()
+      this._submitDelete.open()
     })
 
     if (this._data.owner._id == this._userData._id) {

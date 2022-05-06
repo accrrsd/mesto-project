@@ -5,30 +5,31 @@ export default class PopupWithForm extends Popup {
     super(selector)
     this._callback = callback
     this._form = this._getElement('form', this._element)
+    this._inputList = this._form.querySelectorAll('input')
   }
 
   _getInputValues() {
-    const valueArray = []
-    this._form.querySelectorAll('input').forEach((input) => {
-      const obj = {}
-      obj[input.name] = input.value
-      valueArray.push(obj)
+    const result = {}
+    this._inputList.forEach((input) => {
+      result[input.name] = input.value
     })
-    return valueArray
+    return result
   }
 
   setEventListeners() {
     super.setEventListeners()
-    //На месте калбека - передаваемая функция, которая работает с апи и then
     this._element.addEventListener('submit', (e) => {
       e.preventDefault()
-      const values = Object.fromEntries(
-        this._getInputValues().map((n) => {
-          const key = Object.keys(n)
-          return [key, n[key]]
+      this._submitButton = e.submitter
+      const initialText = this._submitButton.textContent
+      this._submitButton.textContent = 'Сохранение...'
+      this._callback(this._getInputValues())
+        .then(() => {
+          this.close()
         })
-      )
-      this._callback(e, values)
+        .finally(() => {
+          this._submitButton.textContent = initialText
+        })
     })
   }
 
