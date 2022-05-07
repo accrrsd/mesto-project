@@ -4,7 +4,7 @@ import './styles/index.css'
 import Api from './components/Api'
 import UserInfo from './components/UserInfo'
 import Section from './components/Section'
-import Card from './components/Cards'
+import Card from './components/Card'
 import FormValidator from './components/FormValidator'
 import PopupWithForm from './components/PopupWithForm'
 import PopupWithImage from './components/PopupWithImage'
@@ -42,7 +42,7 @@ let userData
 api
   .getProfileFromServer()
   .then((data) => {
-    userInfoLogic.getUserInfo(data)
+    userInfoLogic.setUserInfo(data)
     userData = data
 
     api
@@ -69,7 +69,7 @@ const profilePopupLogic = new PopupWithForm('.popup_type_profile', (values) => {
   return api
     .loadProfileOnServer(values)
     .then((data) => {
-      userInfoLogic.getUserInfo(data)
+      userInfoLogic.setUserInfo(data)
       sessionStorage.setItem('popupProfileName', data.name)
       sessionStorage.setItem('popupProfileAbout', data.about)
     })
@@ -93,7 +93,7 @@ const avatarPopupLogic = new PopupWithForm('.popup_type_avatar-edit', (values) =
   return api
     .loadAvatarOnServer(values)
     .then((data) => {
-      userInfoLogic.getUserInfo(data)
+      userInfoLogic.setUserInfo(data)
     })
     .catch((err) => console.log(err))
 })
@@ -152,14 +152,14 @@ const deleteCardCallback = (e) => {
   return deleteCard(popupSubmitDeleteCard.cardId, popupSubmitDeleteCard.cardElem)
     .then(() => {
       popupSubmitDeleteCard.close()
+      delete popupSubmitDeleteCard.cardId
+      delete popupSubmitDeleteCard.cardElem
     })
     .catch((err) => {
       console.log(err)
     })
     .finally(() => {
       submitBtn.textContent = initText
-      delete popupSubmitDeleteCard.cardId
-      delete popupSubmitDeleteCard.cardElem
     })
 }
 

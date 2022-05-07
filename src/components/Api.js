@@ -70,5 +70,4 @@ export default class Api {
       headers: this._headers,
     }).then(this._checkResponse)
   }
-  
 }
