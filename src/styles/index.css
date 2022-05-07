@@ -47,10 +47,10 @@
 @import url(../blocks/popup/__picture/popup__picture.css);
 
 /* form */
-@import url(../blocks/form/form.css);
-@import url(../blocks/form/__field/form__field.css);
-@import url(../blocks/form/__field/_invalid/form__field_invalid.css);
-@import url(../blocks/form/__submit/form__submit.css);
-@import url(../blocks/form/__submit/_disabled.css);
-@import url(../blocks/form/__field-error/form__field-error.css);
-@import url(../blocks/form/__field-error/_active/form__field-error_active.css);
+@import url(../blocks/form-fieldset/form-fieldset.css);
+@import url(../blocks/form-fieldset/__field/form__field.css);
+@import url(../blocks/form-fieldset/__field/_invalid/form__field_invalid.css);
+@import url(../blocks/form-fieldset/__submit/form__submit.css);
+@import url(../blocks/form-fieldset/__submit/_disabled.css);
+@import url(../blocks/form-fieldset/__field-error/form__field-error.css);
+@import url(../blocks/form-fieldset/__field-error/_active/form__field-error_active.css);
