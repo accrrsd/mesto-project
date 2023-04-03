@@ -7,7 +7,8 @@
     "build": "webpack --mode production",
     "dev": "webpack serve",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "toServer": "npm run build && scp -Cr ./dist/* testuser3@158.160.61.225:/home/testuser3/mesto-frontend"
   },
   "keywords": [],
   "author": "",
